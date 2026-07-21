@@ -5,29 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Comparador WOM vs Competencia — Ofertas Móviles Chile</title>
 <meta name="description" content="Comparador estadístico de planes móviles WOM, Movistar, Entel y Claro en Chile: precios, GB, roaming y beneficios." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --wom:#5b2a86; --wom-accent:#c6ff00;
-    --bg:#0f1115; --panel:#171a21; --panel2:#1d212b;
-    --text:#eef0f4; --muted:#9aa3b2; --border:#2a2f3a;
-    --movistar:#019df4; --entel:#0072ce; --claro:#e30513;
-    --good:#37d67a; --warn:#ffb020;
+    /* Paleta oficial WOM (womstrap-v2.1.min.css) */
+    --wom:#4D008C; --wom-dark:#270046; --wom-accent:#E92070;
+    --wom-success:#33CC9E; --wom-lila-light:#DBCCE8; --wom-lila-tint:#F2EAF8;
+    --wom-gray-text:#212529; --wom-gray-brand:#5C5470;
+
+    --bg:#0f0a16; --panel:#1a1226; --panel2:#211730;
+    --text:#eef0f4; --muted:var(--wom-lila-light); --border:#3a2a54;
+    --movistar:#019df4; --entel:#5aa9ff; --claro:#ff5b63;
+    --good:var(--wom-success); --warn:#ffb020;
     --radius:14px;
     font-size:16px;
   }
   *{box-sizing:border-box;}
   body{
     margin:0; background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:'Poppins',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
+  h1,h2,h3,.pname,.price{font-family:'Poppins',sans-serif;}
   header{
-    padding:28px 24px 18px; background:linear-gradient(135deg,var(--wom) 0%,#2c1450 100%);
+    position:relative; overflow:hidden;
+    padding:26px 24px 20px; background:linear-gradient(135deg,var(--wom-dark) 0%,var(--wom) 100%);
     border-bottom:1px solid var(--border);
   }
-  header h1{margin:0 0 6px; font-size:1.6rem; letter-spacing:-0.02em;}
-  header p{margin:0; color:#e7dcff; font-size:0.92rem; max-width:760px;}
+  header::before, header::after{
+    content:''; position:absolute; border-radius:50%; background:rgba(255,255,255,0.06); pointer-events:none;
+  }
+  header::before{ width:260px; height:260px; right:-80px; top:-120px; }
+  header::after{ width:170px; height:170px; right:120px; top:60px; background:rgba(233,32,112,0.14); }
+  .header-top{display:flex; align-items:center; gap:14px; margin-bottom:10px; position:relative; z-index:1;}
+  .header-top svg{height:26px; width:auto; flex-shrink:0;}
+  header h1{margin:0; font-size:1.5rem; font-weight:700; letter-spacing:-0.02em; position:relative; z-index:1;}
+  header p{margin:0; color:var(--wom-lila-light); font-size:0.92rem; max-width:760px; position:relative; z-index:1;}
   .badge{
-    display:inline-block; background:var(--wom-accent); color:#1a1a1a; font-weight:700;
+    display:inline-block; background:var(--wom-accent); color:#fff; font-weight:700;
     padding:2px 9px; border-radius:99px; font-size:0.72rem; margin-left:8px; vertical-align:middle;
   }
   main{max-width:1280px; margin:0 auto; padding:22px 24px 60px;}
@@ -52,7 +68,7 @@
     padding:6px 12px; border-radius:99px; font-size:0.82rem; cursor:pointer; user-select:none;
     transition:all .15s ease;
   }
-  .chip.active{background:var(--wom-accent); color:#1a1a1a; border-color:var(--wom-accent); font-weight:600;}
+  .chip.active{background:var(--wom-accent); color:#fff; border-color:var(--wom-accent); font-weight:600;}
   input[type=range]{width:170px;}
   select{
     background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:8px;
@@ -73,7 +89,7 @@
   }
   .op-head{padding:14px 16px; font-weight:700; font-size:1.05rem; color:#fff; display:flex; justify-content:space-between; align-items:center;}
   .op-head .count{font-size:0.72rem; font-weight:500; opacity:0.85;}
-  .op-WOM .op-head{background:linear-gradient(135deg,var(--wom),#3a1a63);}
+  .op-WOM .op-head{background:linear-gradient(135deg,var(--wom),var(--wom-dark));}
   .op-Movistar .op-head{background:linear-gradient(135deg,var(--movistar),#015c8a);}
   .op-Entel .op-head{background:linear-gradient(135deg,var(--entel),#003f74);}
   .op-Claro .op-head{background:linear-gradient(135deg,var(--claro),#8f0409);}
@@ -89,8 +105,8 @@
   .plan-card .price{font-weight:700; color:var(--wom-accent);}
   .plan-card .price small{color:var(--muted); font-weight:400; font-size:0.7rem;}
   .plan-card .meta{color:var(--muted); font-size:0.74rem; display:flex; flex-wrap:wrap; gap:6px;}
-  .tag{background:#252a35; border-radius:6px; padding:1px 6px; font-size:0.7rem;}
-  .tag.good{background:rgba(55,214,122,0.15); color:var(--good);}
+  .tag{background:#2a1e3d; border-radius:6px; padding:1px 6px; font-size:0.7rem;}
+  .tag.good{background:rgba(51,204,158,0.16); color:var(--good);}
   .no-results{padding:22px; text-align:center; color:var(--muted); font-size:0.85rem;}
 
   /* Table + charts */
@@ -103,8 +119,8 @@
   tr:hover td{background:rgba(255,255,255,0.02);}
   .bar-row{display:flex; align-items:center; gap:10px; margin:8px 0;}
   .bar-label{width:90px; font-size:0.8rem; flex-shrink:0;}
-  .bar-track{flex:1; background:#0c0e13; border-radius:6px; overflow:hidden; height:20px; border:1px solid var(--border);}
-  .bar-fill{height:100%; display:flex; align-items:center; padding-left:8px; font-size:0.72rem; font-weight:600; color:#0c0e13; white-space:nowrap;}
+  .bar-track{flex:1; background:#150e21; border-radius:6px; overflow:hidden; height:20px; border:1px solid var(--border);}
+  .bar-fill{height:100%; display:flex; align-items:center; padding-left:8px; font-size:0.72rem; font-weight:600; color:#fff; white-space:nowrap;}
   footer{text-align:center; color:var(--muted); font-size:0.75rem; padding:20px; border-top:1px solid var(--border);}
   footer a{color:var(--wom-accent);}
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
@@ -114,7 +130,10 @@
 <body>
 
 <header>
-  <h1>📶 Comparador de Ofertas Móviles: WOM vs Competencia <span class="badge">CHILE 2026</span></h1>
+  <div class="header-top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="44" fill="none" viewBox="0 0 100 44" aria-label="WOM"><path fill-rule="evenodd" d="M98.982 31.367c.296.966-.1 1.583-1.056 1.7l-5.405.633c-.816.092-1.458-.258-1.634-1.048L86.15 13.298c-.14-.46-.504-.415-.543.066l-.9 20.01c-.045.816-.549 1.308-1.368 1.4l-3.906.457c-.819.101-1.408-.262-1.63-1.048L72.616 14.89c-.142-.459-.506-.415-.549.066l-.443 19.959c-.004.804-.551 1.301-1.368 1.397l-5.405.635c-.958.112-1.472-.403-1.397-1.412l2.29-30.866c.05-.818.552-1.306 1.368-1.405l6.409-.748c.816-.098 1.363.27 1.632 1.046l3.764 11.307c.14.455.507.413.543-.068l1.234-11.883c.097-.823.547-1.306 1.37-1.402l6.402-.753c.818-.096 1.413.263 1.632 1.048l8.885 29.556zM.093 12.709c-.289-.971.106-1.59 1.058-1.703l5.405-.633c.823-.096 1.458.256 1.636 1.046l4.732 19.351c.145.462.502.42.547-.065l.9-20.011c.05-.813.554-1.306 1.365-1.397l3.911-.457c.818-.098 1.408.26 1.632 1.048l5.186 19.295c.145.464.504.422.549-.063l.443-19.959c.007-.813.545-1.303 1.368-1.4l5.408-.638c.954-.11 1.471.406 1.39 1.414l-2.288 30.867c-.047.818-.551 1.306-1.365 1.393l-6.406.757c-.821.098-1.365-.267-1.635-1.051l-3.764-11.299c-.143-.455-.507-.415-.543.07l-1.236 11.881c-.095.83-.547 1.308-1.368 1.407l-6.404.748c-.821.098-1.411-.263-1.634-1.046L.093 12.709zm50.707-8.384c-10.768 1.254-12.058 9.86-12.296 13.037l-.929 12.045c-.242 3.177-.258 11.632 10.512 10.369 10.767-1.269 12.056-9.867 12.298-13.049l.925-12.038c.244-3.182.258-11.628-10.51-10.364zm-2.085 27.16c-3.359.396-3.416-1.838-3.129-5.553l.529-6.931c.285-3.712.685-6 4.051-6.394s3.416 1.841 3.133 5.55l-.536 6.938c-.276 3.705-.68 5.996-4.049 6.39z" fill="#fff"/></svg>
+  </div>
+  <h1>Comparador de Ofertas Móviles: WOM vs Competencia <span class="badge">CHILE 2026</span></h1>
   <p>Análisis comparativo de planes móviles de WOM, Movistar, Entel y Claro. Estadísticas calculadas 100% con Python (sin IA) a partir de datos publicados por cada operador. Usa los filtros para explorar precio, datos y beneficios.</p>
 </header>
 
@@ -200,7 +219,7 @@
 </main>
 
 <script>
-const OP_COLORS = { WOM:'#c6ff00', Movistar:'#019df4', Entel:'#5aa9ff', Claro:'#ff5b63' };
+const OP_COLORS = { WOM:'#E92070', Movistar:'#019df4', Entel:'#5aa9ff', Claro:'#ff5b63' };
 
 let PLANES = [];
 let STATS = null;
@@ -373,6 +392,7 @@ function renderDetailTable(filtered){
 
 function renderFooter(meta){
   document.getElementById('footer').innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="61" height="26" fill="none" viewBox="0 0 61 26" style="opacity:0.6; margin-bottom:8px; display:block; margin-left:auto; margin-right:auto;"><path d="M20.594 4.051c.574-.066.885.244.836.851L20.054 23.47c-.028.492-.332.786-.821.838l-3.855.456c-.493.059-.821-.162-.983-.633l-2.264-6.797c-.086-.273-.304-.25-.326.042l-.744 7.147c-.057.499-.33.788-.823.847l-3.853.45c-.494.059-.849-.159-.983-.63L.056 7.411c-.174-.584.064-.957.637-1.024l3.252-.381c.495-.058.877.154.984.629l2.846 11.642c.087.278.303.252.33-.04l.541-12.037c.03-.489.333-.786.821-.841l2.353-.275c.492-.059.847.157.982.631l3.12 11.607c.087.279.303.254.33-.038l.267-12.007c.004-.489.328-.784.823-.842l3.253-.384zm9.966-1.684c6.477-.76 6.469 4.321 6.322 6.235l-.557 7.241c-.145 1.914-.921 7.086-7.398 7.85s-6.47-4.326-6.324-6.237l.56-7.246c.143-1.912.919-7.088 7.396-7.843zM53.218.224c.492-.058.849.159.981.631l5.345 17.78c.178.581-.059.952-.635 1.022l-3.252.381c-.491.055-.877-.155-.983-.631L51.825 7.765c-.084-.276-.303-.249-.326.04l-.542 12.037c-.027.491-.33.788-.822.843l-2.35.274c-.492.061-.847-.158-.98-.63L43.684 8.723c-.086-.276-.305-.25-.331.039l-.267 12.007c-.003.484-.331.783-.822.841l-3.252.382c-.576.068-.885-.242-.84-.849l1.377-18.568c.03-.492.332-.785.823-.845l3.855-.45c.491-.059.819.162.982.629l2.265 6.802c.084.274.304.248.326-.041l.742-7.148c.058-.495.329-.786.824-.844l3.852-.453zM32.064 10.689c.17-2.231.139-3.576-1.885-3.339s-2.266 1.614-2.437 3.847l-.318 4.169c-.173 2.234-.138 3.579 1.883 3.341 2.026-.237 2.27-1.615 2.436-3.844l.322-4.174z" fill="#DBCCE8"/></svg>
     Datos actualizados el ${meta.fecha_actualizacion} · Fuentes: sitios oficiales de cada operador y agregadores especializados (fonochile.com, cuantomecuesta.com, celulares.com).
     Estadísticas calculadas con Python (scripts/analysis.py) — sin uso de IA. Uso interno de análisis de mercado.
   `;

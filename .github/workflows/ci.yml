@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run analysis script (regenera stats.json)
+        run: python3 scripts/analysis.py
+
+      - name: Validar que stats.json quedó actualizado
+        run: |
+          git diff --exit-code data/stats.json || (echo "::error::data/stats.json está desactualizado. Corre 'python3 scripts/analysis.py' y commitea el resultado." && exit 1)
+
+      - name: Validar JSON de planes
+        run: python3 -c "import json; json.load(open('data/planes.json'))"
+
+      - name: Validar HTML básico (presencia de archivo y estructura)
+        run: |
+          test -f index.html
+          grep -q "<html" index.html
+          grep -q "planes.json" index.html
+          grep -q "stats.json" index.html
+          echo "index.html OK"

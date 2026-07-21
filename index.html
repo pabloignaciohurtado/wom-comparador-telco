@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Comparador WOM vs Competencia — Ofertas Móviles Chile</title>
+<meta name="description" content="Comparador estadístico de planes móviles WOM, Movistar, Entel y Claro en Chile: precios, GB, roaming y beneficios." />
+<style>
+  :root{
+    --wom:#5b2a86; --wom-accent:#c6ff00;
+    --bg:#0f1115; --panel:#171a21; --panel2:#1d212b;
+    --text:#eef0f4; --muted:#9aa3b2; --border:#2a2f3a;
+    --movistar:#019df4; --entel:#0072ce; --claro:#e30513;
+    --good:#37d67a; --warn:#ffb020;
+    --radius:14px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  header{
+    padding:28px 24px 18px; background:linear-gradient(135deg,var(--wom) 0%,#2c1450 100%);
+    border-bottom:1px solid var(--border);
+  }
+  header h1{margin:0 0 6px; font-size:1.6rem; letter-spacing:-0.02em;}
+  header p{margin:0; color:#e7dcff; font-size:0.92rem; max-width:760px;}
+  .badge{
+    display:inline-block; background:var(--wom-accent); color:#1a1a1a; font-weight:700;
+    padding:2px 9px; border-radius:99px; font-size:0.72rem; margin-left:8px; vertical-align:middle;
+  }
+  main{max-width:1280px; margin:0 auto; padding:22px 24px 60px;}
+
+  /* KPIs */
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:24px;}
+  .kpi{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px;}
+  .kpi .label{font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em;}
+  .kpi .value{font-size:1.5rem; font-weight:700; margin-top:4px;}
+  .kpi .sub{font-size:0.75rem; color:var(--muted); margin-top:2px;}
+
+  /* Filters */
+  .filters{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px; display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; margin-bottom:22px;
+  }
+  .filter-group{display:flex; flex-direction:column; gap:6px; min-width:150px;}
+  .filter-group label{font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.03em;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{
+    border:1px solid var(--border); background:var(--panel2); color:var(--text);
+    padding:6px 12px; border-radius:99px; font-size:0.82rem; cursor:pointer; user-select:none;
+    transition:all .15s ease;
+  }
+  .chip.active{background:var(--wom-accent); color:#1a1a1a; border-color:var(--wom-accent); font-weight:600;}
+  input[type=range]{width:170px;}
+  select{
+    background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:8px;
+    padding:8px 10px; font-size:0.85rem;
+  }
+  .range-value{font-size:0.78rem; color:var(--muted);}
+  .reset-btn{
+    background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:8px;
+    padding:8px 14px; font-size:0.82rem; cursor:pointer; margin-left:auto;
+  }
+  .reset-btn:hover{border-color:var(--wom-accent); color:var(--wom-accent);}
+
+  /* Panels grid (comparativo por operador) */
+  .op-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:30px;}
+  .op-panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .op-head{padding:14px 16px; font-weight:700; font-size:1.05rem; color:#fff; display:flex; justify-content:space-between; align-items:center;}
+  .op-head .count{font-size:0.72rem; font-weight:500; opacity:0.85;}
+  .op-WOM .op-head{background:linear-gradient(135deg,var(--wom),#3a1a63);}
+  .op-Movistar .op-head{background:linear-gradient(135deg,var(--movistar),#015c8a);}
+  .op-Entel .op-head{background:linear-gradient(135deg,var(--entel),#003f74);}
+  .op-Claro .op-head{background:linear-gradient(135deg,var(--claro),#8f0409);}
+  .op-stats{padding:12px 16px; display:grid; grid-template-columns:1fr 1fr; gap:8px; border-bottom:1px solid var(--border); font-size:0.78rem;}
+  .op-stats div span{display:block; color:var(--muted); font-size:0.68rem; text-transform:uppercase;}
+  .plans-list{padding:8px 10px 12px; display:flex; flex-direction:column; gap:8px; max-height:420px; overflow-y:auto;}
+  .plan-card{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:10px 12px;
+    display:flex; flex-direction:column; gap:4px; font-size:0.82rem;
+  }
+  .plan-card .row1{display:flex; justify-content:space-between; align-items:baseline;}
+  .plan-card .pname{font-weight:600;}
+  .plan-card .price{font-weight:700; color:var(--wom-accent);}
+  .plan-card .price small{color:var(--muted); font-weight:400; font-size:0.7rem;}
+  .plan-card .meta{color:var(--muted); font-size:0.74rem; display:flex; flex-wrap:wrap; gap:6px;}
+  .tag{background:#252a35; border-radius:6px; padding:1px 6px; font-size:0.7rem;}
+  .tag.good{background:rgba(55,214,122,0.15); color:var(--good);}
+  .no-results{padding:22px; text-align:center; color:var(--muted); font-size:0.85rem;}
+
+  /* Table + charts */
+  section.block{margin-bottom:30px;}
+  section.block h2{font-size:1.1rem; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px;}
+  table{width:100%; border-collapse:collapse; font-size:0.84rem;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--border);}
+  th{color:var(--muted); font-weight:600; font-size:0.72rem; text-transform:uppercase;}
+  tr:hover td{background:rgba(255,255,255,0.02);}
+  .bar-row{display:flex; align-items:center; gap:10px; margin:8px 0;}
+  .bar-label{width:90px; font-size:0.8rem; flex-shrink:0;}
+  .bar-track{flex:1; background:#0c0e13; border-radius:6px; overflow:hidden; height:20px; border:1px solid var(--border);}
+  .bar-fill{height:100%; display:flex; align-items:center; padding-left:8px; font-size:0.72rem; font-weight:600; color:#0c0e13; white-space:nowrap;}
+  footer{text-align:center; color:var(--muted); font-size:0.75rem; padding:20px; border-top:1px solid var(--border);}
+  footer a{color:var(--wom-accent);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:820px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📶 Comparador de Ofertas Móviles: WOM vs Competencia <span class="badge">CHILE 2026</span></h1>
+  <p>Análisis comparativo de planes móviles de WOM, Movistar, Entel y Claro. Estadísticas calculadas 100% con Python (sin IA) a partir de datos publicados por cada operador. Usa los filtros para explorar precio, datos y beneficios.</p>
+</header>
+
+<main>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Operador</label>
+      <div class="chip-row" id="filter-operador"></div>
+    </div>
+    <div class="filter-group">
+      <label>Precio máximo: <span class="range-value" id="precio-max-label"></span></label>
+      <input type="range" id="filter-precio" min="0" max="35000" step="500" />
+    </div>
+    <div class="filter-group">
+      <label>Datos mínimos (GB): <span class="range-value" id="datos-min-label"></span></label>
+      <input type="range" id="filter-datos" min="0" max="1000" step="10" />
+    </div>
+    <div class="filter-group">
+      <label>Beneficios</label>
+      <div class="chip-row">
+        <div class="chip" data-benefit="roaming_incluido">Roaming</div>
+        <div class="chip" data-benefit="redes_sociales_gratis">Redes sociales gratis</div>
+        <div class="chip" data-benefit="datos_ilimitados">Datos ilimitados</div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Ordenar por</label>
+      <select id="sort-select">
+        <option value="precio_asc">Precio (menor a mayor)</option>
+        <option value="precio_desc">Precio (mayor a menor)</option>
+        <option value="ppg_asc">CLP/GB (mejor valor)</option>
+        <option value="datos_desc">Más datos</option>
+      </select>
+    </div>
+    <button class="reset-btn" id="reset-btn">↺ Limpiar filtros</button>
+  </div>
+
+  <section class="block">
+    <h2>📊 Paneles comparativos por operador</h2>
+    <div class="op-grid" id="op-grid"></div>
+  </section>
+
+  <section class="block">
+    <div class="grid2">
+      <div class="card">
+        <h2 style="margin-top:0;">💰 Precio promedio por operador (CLP/mes)</h2>
+        <div id="bar-precio"></div>
+      </div>
+      <div class="card">
+        <h2 style="margin-top:0;">📈 CLP por GB promedio (planes con tope de datos)</h2>
+        <div id="bar-ppg"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>🏆 Ranking: mejor precio por GB</h2>
+    <div class="card">
+      <table>
+        <thead><tr><th>#</th><th>Operador</th><th>Plan</th><th>GB</th><th>Precio</th><th>CLP/GB</th></tr></thead>
+        <tbody id="ranking-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>📋 Detalle completo de planes (filtrado)</h2>
+    <div class="card" style="overflow-x:auto;">
+      <table>
+        <thead><tr>
+          <th>Operador</th><th>Plan</th><th>Precio promo</th><th>Precio regular</th>
+          <th>Datos</th><th>Minutos</th><th>SMS</th><th>Roaming</th><th>Redes sociales</th>
+        </tr></thead>
+        <tbody id="detail-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+</main>
+
+<script>
+const OP_COLORS = { WOM:'#c6ff00', Movistar:'#019df4', Entel:'#5aa9ff', Claro:'#ff5b63' };
+
+let PLANES = [];
+let STATS = null;
+let state = { operador: null, precioMax: null, datosMin: 0, beneficios: new Set(), sort: 'precio_asc' };
+
+function fmtCLP(n){ if(n==null) return '—'; return '$' + Math.round(n).toLocaleString('es-CL'); }
+
+async function loadData(){
+  const [planesRes, statsRes] = await Promise.all([
+    fetch('data/planes.json'), fetch('data/stats.json')
+  ]);
+  const planesJson = await planesRes.json();
+  STATS = await statsRes.json();
+  PLANES = planesJson.planes.map(p => ({
+    ...p,
+    precio_efectivo: p.precio_promo || p.precio_regular,
+    precio_por_gb: (!p.datos_ilimitados && p.datos_gb) ? Math.round((p.precio_promo||p.precio_regular)/p.datos_gb) : null
+  }));
+
+  const maxPrecio = Math.max(...PLANES.map(p=>p.precio_efectivo));
+  const maxDatos = Math.max(...PLANES.filter(p=>p.datos_gb).map(p=>p.datos_gb));
+  state.precioMax = maxPrecio;
+  state.datosMin = 0;
+  document.getElementById('filter-precio').max = maxPrecio;
+  document.getElementById('filter-precio').value = maxPrecio;
+  document.getElementById('filter-datos').max = maxDatos;
+  document.getElementById('filter-datos').value = 0;
+
+  renderOperadorChips();
+  renderKPIs();
+  renderBars();
+  renderRanking();
+  render();
+  renderFooter(planesJson.metadata);
+}
+
+function renderOperadorChips(){
+  const ops = [...new Set(PLANES.map(p=>p.operador))];
+  const wrap = document.getElementById('filter-operador');
+  wrap.innerHTML = ops.map(o=>`<div class="chip" data-op="${o}">${o}</div>`).join('');
+  wrap.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const op = chip.dataset.op;
+      state.operador = state.operador === op ? null : op;
+      wrap.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c.dataset.op===state.operador));
+      render();
+    });
+  });
+}
+
+function renderKPIs(){
+  const g = STATS.resumen_general;
+  const kpis = [
+    {label:'Total planes analizados', value: g.total_planes, sub: g.total_operadores + ' operadores'},
+    {label:'Precio promedio mercado', value: fmtCLP(g.precio_promedio_mercado), sub:'mensual, precio vigente'},
+    {label:'Mediana de precio', value: fmtCLP(g.precio_mediana_mercado), sub:'50% de planes por debajo'},
+    {label:'CLP/GB promedio', value: g.precio_por_gb_promedio_mercado + ' CLP/GB', sub:'solo planes con tope de datos'},
+    {label:'Correlación datos↔precio', value: g.correlacion_datos_vs_precio, sub: Math.abs(g.correlacion_datos_vs_precio) < 0.3 ? 'correlación débil' : 'correlación relevante'},
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(k=>`
+    <div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>
+  `).join('');
+}
+
+function renderBars(){
+  const ops = Object.values(STATS.por_operador);
+  const maxPrecio = Math.max(...ops.map(o=>o.precio_promedio));
+  document.getElementById('bar-precio').innerHTML = ops.map(o=>`
+    <div class="bar-row">
+      <div class="bar-label">${o.operador}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(o.precio_promedio/maxPrecio*100).toFixed(0)}%; background:${OP_COLORS[o.operador]}">${fmtCLP(o.precio_promedio)}</div></div>
+    </div>`).join('');
+
+  const opsConPPG = ops.filter(o=>o.precio_por_gb_promedio);
+  const maxPPG = Math.max(...opsConPPG.map(o=>o.precio_por_gb_promedio));
+  document.getElementById('bar-ppg').innerHTML = opsConPPG.map(o=>`
+    <div class="bar-row">
+      <div class="bar-label">${o.operador}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(o.precio_por_gb_promedio/maxPPG*100).toFixed(0)}%; background:${OP_COLORS[o.operador]}">${o.precio_por_gb_promedio} CLP/GB</div></div>
+    </div>`).join('');
+}
+
+function renderRanking(){
+  document.getElementById('ranking-body').innerHTML = STATS.ranking_precio_por_gb_top10.map((p,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><span style="color:${OP_COLORS[p.operador]}; font-weight:600;">${p.operador}</span></td>
+      <td>${p.nombre}</td>
+      <td>${p.datos_gb} GB</td>
+      <td>${fmtCLP(p.precio_efectivo)}</td>
+      <td><b>${p.precio_por_gb} CLP/GB</b></td>
+    </tr>`).join('');
+}
+
+function passesFilters(p){
+  if(state.operador && p.operador !== state.operador) return false;
+  if(p.precio_efectivo > state.precioMax) return false;
+  const gbEfectivo = p.datos_ilimitados ? Infinity : (p.datos_gb || 0);
+  if(gbEfectivo < state.datosMin) return false;
+  for(const b of state.beneficios){ if(!p[b]) return false; }
+  return true;
+}
+
+function sortPlanes(list){
+  const l = [...list];
+  switch(state.sort){
+    case 'precio_asc': return l.sort((a,b)=>a.precio_efectivo-b.precio_efectivo);
+    case 'precio_desc': return l.sort((a,b)=>b.precio_efectivo-a.precio_efectivo);
+    case 'ppg_asc': return l.sort((a,b)=>(a.precio_por_gb??1e9)-(b.precio_por_gb??1e9));
+    case 'datos_desc': return l.sort((a,b)=>(b.datos_ilimitados?1e9:b.datos_gb||0)-(a.datos_ilimitados?1e9:a.datos_gb||0));
+  }
+  return l;
+}
+
+function render(){
+  const filtered = sortPlanes(PLANES.filter(passesFilters));
+  renderOpPanels(filtered);
+  renderDetailTable(filtered);
+}
+
+function renderOpPanels(filtered){
+  const ops = [...new Set(PLANES.map(p=>p.operador))];
+  const grid = document.getElementById('op-grid');
+  grid.innerHTML = ops.map(op=>{
+    const opPlanes = filtered.filter(p=>p.operador===op);
+    const s = STATS.por_operador[op];
+    const cardsHtml = opPlanes.length ? opPlanes.map(p=>`
+      <div class="plan-card">
+        <div class="row1">
+          <span class="pname">${p.nombre}</span>
+          <span class="price">${fmtCLP(p.precio_efectivo)}<small>/mes</small></span>
+        </div>
+        <div class="meta">
+          <span class="tag">${p.datos_ilimitados ? 'Datos ilimitados' : p.datos_gb+' GB'}</span>
+          ${p.precio_por_gb ? `<span class="tag">${p.precio_por_gb} CLP/GB</span>`:''}
+          ${p.roaming_incluido ? '<span class="tag good">Roaming</span>':''}
+          ${p.redes_sociales_gratis ? '<span class="tag good">Redes gratis</span>':''}
+          ${p.precio_promo ? `<span class="tag">Promo ${p.meses_promo||''}m → ${fmtCLP(p.precio_regular)}</span>`:''}
+        </div>
+      </div>`).join('') : '<div class="no-results">Sin planes que cumplan los filtros</div>';
+
+    return `
+      <div class="op-panel op-${op}">
+        <div class="op-head"><span>${op}</span><span class="count">${opPlanes.length}/${s.cantidad_planes} planes</span></div>
+        <div class="op-stats">
+          <div><span>Precio promedio</span>${fmtCLP(s.precio_promedio)}</div>
+          <div><span>Precio min-max</span>${fmtCLP(s.precio_min)} - ${fmtCLP(s.precio_max)}</div>
+          <div><span>CLP/GB promedio</span>${s.precio_por_gb_promedio ?? '—'}</div>
+          <div><span>% con roaming</span>${s.pct_planes_con_roaming}%</div>
+        </div>
+        <div class="plans-list">${cardsHtml}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderDetailTable(filtered){
+  document.getElementById('detail-body').innerHTML = filtered.length ? filtered.map(p=>`
+    <tr>
+      <td style="color:${OP_COLORS[p.operador]}; font-weight:600;">${p.operador}</td>
+      <td>${p.nombre}</td>
+      <td>${p.precio_promo ? fmtCLP(p.precio_promo) : '—'}</td>
+      <td>${fmtCLP(p.precio_regular)}</td>
+      <td>${p.datos_ilimitados ? 'Ilimitado' : p.datos_gb+' GB'}</td>
+      <td>${p.minutos ?? '—'}</td>
+      <td>${p.sms ?? '—'}</td>
+      <td>${p.roaming_incluido ? '✅' : '—'}</td>
+      <td>${p.redes_sociales_gratis ? '✅' : '—'}</td>
+    </tr>`).join('') : `<tr><td colspan="9" class="no-results">Sin resultados para los filtros actuales</td></tr>`;
+}
+
+function renderFooter(meta){
+  document.getElementById('footer').innerHTML = `
+    Datos actualizados el ${meta.fecha_actualizacion} · Fuentes: sitios oficiales de cada operador y agregadores especializados (fonochile.com, cuantomecuesta.com, celulares.com).
+    Estadísticas calculadas con Python (scripts/analysis.py) — sin uso de IA. Uso interno de análisis de mercado.
+  `;
+}
+
+// wire up controls
+document.getElementById('filter-precio').addEventListener('input', e=>{
+  state.precioMax = Number(e.target.value);
+  document.getElementById('precio-max-label').textContent = fmtCLP(state.precioMax);
+  render();
+});
+document.getElementById('filter-datos').addEventListener('input', e=>{
+  state.datosMin = Number(e.target.value);
+  document.getElementById('datos-min-label').textContent = state.datosMin + ' GB';
+  render();
+});
+document.querySelectorAll('[data-benefit]').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    const b = chip.dataset.benefit;
+    if(state.beneficios.has(b)){ state.beneficios.delete(b); chip.classList.remove('active'); }
+    else { state.beneficios.add(b); chip.classList.add('active'); }
+    render();
+  });
+});
+document.getElementById('sort-select').addEventListener('change', e=>{ state.sort = e.target.value; render(); });
+document.getElementById('reset-btn').addEventListener('click', ()=>{
+  state = { operador:null, precioMax: Number(document.getElementById('filter-precio').max), datosMin:0, beneficios:new Set(), sort:'precio_asc' };
+  document.getElementById('filter-precio').value = state.precioMax;
+  document.getElementById('filter-datos').value = 0;
+  document.getElementById('precio-max-label').textContent = fmtCLP(state.precioMax);
+  document.getElementById('datos-min-label').textContent = '0 GB';
+  document.getElementById('sort-select').value = 'precio_asc';
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  render();
+});
+
+loadData();
+</script>
+</body>
+</html>

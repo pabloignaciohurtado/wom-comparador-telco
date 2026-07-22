@@ -156,6 +156,18 @@
   .collapse-content{display:block; overflow:hidden; max-height:none; opacity:1; transition:max-height .3s ease, opacity .3s ease;}
   .collapse-content.hidden{max-height:0; opacity:0; overflow:hidden;}
 
+  /* Detail table operator groups */
+  .op-group{margin-bottom:12px; border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .op-group-toggle{display:flex; align-items:center; gap:10px; background:var(--panel2); padding:12px 14px; cursor:pointer; font-weight:600; user-select:none; transition:all .2s;}
+  .op-group-toggle:hover{background:rgba(233,32,112,0.1);}
+  .op-group-toggle .toggle-arrow{transition:transform .2s; display:inline-block; font-size:0.9rem;}
+  .op-group-toggle.collapsed .toggle-arrow{transform:rotate(-90deg);}
+  .op-group-toggle .op-badge-small{display:inline-block; font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:12px; background:var(--wom-accent); color:#fff; margin-left:auto;}
+  .op-group-content{max-height:none; opacity:1; transition:max-height .3s ease, opacity .3s ease;}
+  .op-group-content.hidden{max-height:0; opacity:0; overflow:hidden;}
+  .op-group-content table{border-top:1px solid var(--border);}
+  .op-group-content th{background:var(--panel2);}
+
   /* Table + charts */
   .card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px;}
   table{width:100%; border-collapse:collapse; font-size:0.84rem;}
@@ -257,15 +269,7 @@
       <span>Ver detalle completo de planes (filtrado)</span>
     </div>
     <div class="collapse-content" id="detail-content">
-      <div class="card" style="overflow-x:auto;">
-        <table>
-        <thead><tr>
-          <th>Operador</th><th>Plan</th><th>Precio promo</th><th>Precio regular</th>
-          <th>Datos</th><th>Minutos</th><th>SMS</th><th>Roaming</th><th>Redes sociales</th><th>Oferta</th>
-        </tr></thead>
-        <tbody id="detail-body"></tbody>
-      </table>
-      </div>
+      <div class="card" id="detail-card"></div>
     </div>
   </section>
 
@@ -567,19 +571,70 @@ function renderOpPanels(filtered){
 }
 
 function renderDetailTable(filtered){
-  document.getElementById('detail-body').innerHTML = filtered.length ? filtered.map(p=>`
-    <tr>
-      <td style="color:${OP_COLORS[p.operador]}; font-weight:600;">${p.operador}</td>
-      <td>${p.nombre}</td>
-      <td>${p.precio_promo ? fmtCLP(p.precio_promo) : '—'}</td>
-      <td>${fmtCLP(p.precio_regular)}</td>
-      <td>${p.datos_ilimitados ? 'Ilimitado' : p.datos_gb+' GB'}</td>
-      <td>${p.minutos ?? '—'}</td>
-      <td>${p.sms ?? '—'}</td>
-      <td>${p.roaming_incluido ? '✅' : '—'}</td>
-      <td>${p.redes_sociales_gratis ? '✅' : '—'}</td>
-      <td>${p.fuente ? `<a href="${p.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Ver oferta ↗</a>` : '—'}</td>
-    </tr>`).join('') : `<tr><td colspan="10" class="no-results">Sin resultados para los filtros actuales</td></tr>`;
+  const detailCard = document.getElementById('detail-card');
+
+  if(!filtered.length){
+    detailCard.innerHTML = '<div class="no-results">Sin resultados para los filtros actuales</div>';
+    return;
+  }
+
+  // Agrupar planes por operador manteniendo el orden
+  const ops = [...new Set(PLANES.map(p=>p.operador))];
+  const opsOrdered = [...ops].sort((a,b) => a === 'WOM' ? -1 : b === 'WOM' ? 1 : 0);
+
+  const groupedPlans = {};
+  opsOrdered.forEach(op => {
+    groupedPlans[op] = filtered.filter(p => p.operador === op);
+  });
+
+  // Generar HTML con grupos colapsables
+  const html = opsOrdered.map(op => {
+    const opPlanes = groupedPlans[op];
+    if(!opPlanes.length) return '';
+
+    const tableRows = opPlanes.map(p=>`
+      <tr>
+        <td>${p.nombre}</td>
+        <td>${p.precio_promo ? fmtCLP(p.precio_promo) : '—'}</td>
+        <td>${fmtCLP(p.precio_regular)}</td>
+        <td>${p.datos_ilimitados ? 'Ilimitado' : p.datos_gb+' GB'}</td>
+        <td>${p.minutos ?? '—'}</td>
+        <td>${p.sms ?? '—'}</td>
+        <td>${p.roaming_incluido ? '✅' : '—'}</td>
+        <td>${p.redes_sociales_gratis ? '✅' : '—'}</td>
+        <td>${p.fuente ? `<a href="${p.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Ver oferta ↗</a>` : '—'}</td>
+      </tr>`).join('');
+
+    return `
+      <div class="op-group">
+        <div class="op-group-toggle" data-op="${op}">
+          <span class="toggle-arrow">▼</span>
+          <span style="color:${OP_COLORS[op]}; font-weight:700;">${op}</span>
+          <span class="op-badge-small">${opPlanes.length}</span>
+        </div>
+        <div class="op-group-content" data-op="${op}">
+          <table style="width:100%; border-collapse:collapse; font-size:0.84rem;">
+            <thead><tr>
+              <th>Plan</th><th>Precio promo</th><th>Precio regular</th>
+              <th>Datos</th><th>Minutos</th><th>SMS</th><th>Roaming</th><th>Redes sociales</th><th>Oferta</th>
+            </tr></thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join('');
+
+  detailCard.innerHTML = html;
+
+  // Agregar event listeners a los toggles
+  detailCard.querySelectorAll('.op-group-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const op = toggle.dataset.op;
+      toggle.classList.toggle('collapsed');
+      const content = detailCard.querySelector(`.op-group-content[data-op="${op}"]`);
+      content.classList.toggle('hidden');
+    });
+  });
 }
 
 function renderFooter(meta){

@@ -108,6 +108,9 @@
   .tag{background:#2a1e3d; border-radius:6px; padding:1px 6px; font-size:0.7rem;}
   .tag.good{background:rgba(51,204,158,0.16); color:var(--good);}
   .no-results{padding:22px; text-align:center; color:var(--muted); font-size:0.85rem;}
+  .offer-link{color:var(--wom-accent); text-decoration:none; font-weight:600; font-size:0.78rem; white-space:nowrap;}
+  .offer-link:hover{text-decoration:underline;}
+  .card-link{display:inline-block; margin:6px 12px 10px;}
 
   /* Table + charts */
   section.block{margin-bottom:30px;}
@@ -196,7 +199,7 @@
     <h2>🏆 Ranking: mejor precio por GB</h2>
     <div class="card">
       <table>
-        <thead><tr><th>#</th><th>Operador</th><th>Plan</th><th>GB</th><th>Precio</th><th>CLP/GB</th></tr></thead>
+        <thead><tr><th>#</th><th>Operador</th><th>Plan</th><th>GB</th><th>Precio</th><th>CLP/GB</th><th>Oferta</th></tr></thead>
         <tbody id="ranking-body"></tbody>
       </table>
     </div>
@@ -208,7 +211,7 @@
       <table>
         <thead><tr>
           <th>Operador</th><th>Plan</th><th>Precio promo</th><th>Precio regular</th>
-          <th>Datos</th><th>Minutos</th><th>SMS</th><th>Roaming</th><th>Redes sociales</th>
+          <th>Datos</th><th>Minutos</th><th>SMS</th><th>Roaming</th><th>Redes sociales</th><th>Oferta</th>
         </tr></thead>
         <tbody id="detail-body"></tbody>
       </table>
@@ -303,7 +306,10 @@ function renderBars(){
 }
 
 function renderRanking(){
-  document.getElementById('ranking-body').innerHTML = STATS.ranking_precio_por_gb_top10.map((p,i)=>`
+  document.getElementById('ranking-body').innerHTML = STATS.ranking_precio_por_gb_top10.map((p,i)=>{
+    const plan = PLANES.find(pl=>pl.id===p.id);
+    const fuente = plan ? plan.fuente : null;
+    return `
     <tr>
       <td>${i+1}</td>
       <td><span style="color:${OP_COLORS[p.operador]}; font-weight:600;">${p.operador}</span></td>
@@ -311,7 +317,9 @@ function renderRanking(){
       <td>${p.datos_gb} GB</td>
       <td>${fmtCLP(p.precio_efectivo)}</td>
       <td><b>${p.precio_por_gb} CLP/GB</b></td>
-    </tr>`).join('');
+      <td>${fuente ? `<a href="${fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Ver oferta ↗</a>` : '—'}</td>
+    </tr>`;
+  }).join('');
 }
 
 function passesFilters(p){
@@ -359,6 +367,7 @@ function renderOpPanels(filtered){
           ${p.redes_sociales_gratis ? '<span class="tag good">Redes gratis</span>':''}
           ${p.precio_promo ? `<span class="tag">Promo ${p.meses_promo||''}m → ${fmtCLP(p.precio_regular)}</span>`:''}
         </div>
+        ${p.fuente ? `<a href="${p.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link card-link">Ver oferta oficial ↗</a>` : ''}
       </div>`).join('') : '<div class="no-results">Sin planes que cumplan los filtros</div>';
 
     return `
@@ -387,7 +396,8 @@ function renderDetailTable(filtered){
       <td>${p.sms ?? '—'}</td>
       <td>${p.roaming_incluido ? '✅' : '—'}</td>
       <td>${p.redes_sociales_gratis ? '✅' : '—'}</td>
-    </tr>`).join('') : `<tr><td colspan="9" class="no-results">Sin resultados para los filtros actuales</td></tr>`;
+      <td>${p.fuente ? `<a href="${p.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Ver oferta ↗</a>` : '—'}</td>
+    </tr>`).join('') : `<tr><td colspan="10" class="no-results">Sin resultados para los filtros actuales</td></tr>`;
 }
 
 function renderFooter(meta){

@@ -82,19 +82,25 @@
   .reset-btn:hover{border-color:var(--wom-accent); color:var(--wom-accent);}
 
   /* Panels grid (comparativo por operador) */
-  .op-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-bottom:30px;}
+  .op-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:30px;}
+  .op-grid.multi-col{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
   .op-panel{
     background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;
-    display:flex; flex-direction:column;
+    display:flex; flex-direction:column; position:relative;
+  }
+  .op-panel.is-wom{
+    border:2px solid var(--wom-accent); box-shadow:0 0 20px rgba(233,32,112,0.25); order:-1;
+    grid-column:1 / -1;
   }
   .op-head{padding:14px 16px; font-weight:700; font-size:1.05rem; color:#fff; display:flex; justify-content:space-between; align-items:center;}
   .op-head .count{font-size:0.72rem; font-weight:500; opacity:0.85;}
-  .op-WOM .op-head{background:linear-gradient(135deg,var(--wom),var(--wom-dark));}
-  .op-Movistar .op-head{background:linear-gradient(135deg,var(--movistar),#015c8a);}
-  .op-Entel .op-head{background:linear-gradient(135deg,var(--entel),#003f74);}
-  .op-Claro .op-head{background:linear-gradient(135deg,var(--claro),#8f0409);}
+  .op-badge{position:absolute; top:8px; right:8px; background:var(--wom-success); color:#0b2a20; font-size:0.65rem; font-weight:700; padding:3px 9px; border-radius:20px; text-transform:uppercase; z-index:2;}
+  .op-panel.is-wom .op-badge{background:var(--wom-accent); color:#fff; top:12px; right:12px;}
   .op-stats{padding:12px 16px; display:grid; grid-template-columns:1fr 1fr; gap:8px; border-bottom:1px solid var(--border); font-size:0.78rem;}
   .op-stats div span{display:block; color:var(--muted); font-size:0.68rem; text-transform:uppercase;}
+  .op-delta{padding:8px 16px; background:rgba(233,32,112,0.08); border-bottom:1px solid var(--border); font-size:0.75rem; color:var(--wom-accent); font-weight:600; text-align:center;}
+  .op-delta.negative{color:var(--good);}
+  .op-delta.positive{color:#ff6b6b;}
   .plans-list{padding:8px 10px 12px; display:flex; flex-direction:column; gap:8px; max-height:420px; overflow-y:auto;}
   .plan-card{
     background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:10px 12px;
@@ -445,7 +451,18 @@ function render(){
 function renderOpPanels(filtered){
   const ops = [...new Set(PLANES.map(p=>p.operador))];
   const grid = document.getElementById('op-grid');
-  grid.innerHTML = ops.map(op=>{
+
+  // Reordenar: WOM primero, luego competencia
+  const opsOrdered = [...ops].sort((a,b) => a === 'WOM' ? -1 : b === 'WOM' ? 1 : 0);
+
+  // Obtener precio promedio de WOM para comparativas
+  const womStats = STATS.por_operador['WOM'];
+  const womPromedio = womStats ? womStats.precio_promedio : null;
+
+  // Limpiar clase multi-col del grid
+  grid.className = 'op-grid';
+
+  grid.innerHTML = opsOrdered.map(op=>{
     const opPlanes = filtered.filter(p=>p.operador===op);
     const s = STATS.por_operador[op];
     const cardsHtml = opPlanes.length ? opPlanes.map(p=>`
@@ -464,9 +481,22 @@ function renderOpPanels(filtered){
         ${p.fuente ? `<a href="${p.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link card-link">Ver oferta oficial ↗</a>` : ''}
       </div>`).join('') : '<div class="no-results">Sin planes que cumplan los filtros</div>';
 
+    const isWom = op === 'WOM';
+    const deltaHtml = !isWom && womPromedio
+      ? `<div class="op-delta ${s.precio_promedio < womPromedio ? 'negative' : 'positive'}">
+           ${s.precio_promedio < womPromedio ? '✓' : '▲'}
+           ${Math.abs(Math.round(s.precio_promedio - womPromedio))} CLP
+           ${s.precio_promedio < womPromedio ? 'más barato' : 'más caro'} que WOM
+         </div>`
+      : '';
+
+    const badgeHtml = `<span class="op-badge">${isWom ? 'Tu operador' : 'Comparar'}</span>`;
+
     return `
-      <div class="op-panel op-${op}">
+      <div class="op-panel op-${op} ${isWom ? 'is-wom' : ''}">
+        ${badgeHtml}
         <div class="op-head"><span>${op}</span><span class="count">${opPlanes.length}/${s.cantidad_planes} planes</span></div>
+        ${deltaHtml}
         <div class="op-stats">
           <div><span>Precio promedio</span>${fmtCLP(s.precio_promedio)}</div>
           <div><span>Precio min-max</span>${fmtCLP(s.precio_min)} - ${fmtCLP(s.precio_max)}</div>

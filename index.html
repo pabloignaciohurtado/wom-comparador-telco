@@ -50,9 +50,13 @@
 
   /* KPIs */
   .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:24px;}
-  .kpi{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px;}
+  .kpi{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; position:relative;}
+  .kpi.highlight{background:linear-gradient(135deg, var(--panel) 0%, rgba(233,32,112,0.1) 100%); border-color:var(--wom-accent);}
   .kpi .label{font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em;}
-  .kpi .value{font-size:1.5rem; font-weight:700; margin-top:4px;}
+  .kpi .value{font-size:1.5rem; font-weight:700; margin-top:4px; display:flex; align-items:baseline; gap:6px;}
+  .kpi .delta{font-size:0.85rem; font-weight:600; padding:2px 8px; border-radius:6px; white-space:nowrap;}
+  .kpi .delta.positive{background:rgba(51,204,158,0.2); color:var(--good);}
+  .kpi .delta.negative{background:rgba(255,107,107,0.2); color:#ff6b6b;}
   .kpi .sub{font-size:0.75rem; color:var(--muted); margin-top:2px;}
 
   /* Filters */
@@ -96,6 +100,10 @@
   .op-head .count{font-size:0.72rem; font-weight:500; opacity:0.85;}
   .op-badge{position:absolute; top:8px; right:8px; background:var(--wom-success); color:#0b2a20; font-size:0.65rem; font-weight:700; padding:3px 9px; border-radius:20px; text-transform:uppercase; z-index:2;}
   .op-panel.is-wom .op-badge{background:var(--wom-accent); color:#fff; top:12px; right:12px;}
+  .op-WOM .op-head{background:linear-gradient(135deg,var(--wom),var(--wom-dark));}
+  .op-Movistar .op-head{background:linear-gradient(135deg,var(--movistar),#015c8a);}
+  .op-Entel .op-head{background:linear-gradient(135deg,var(--entel),#003f74);}
+  .op-Claro .op-head{background:linear-gradient(135deg,var(--claro),#8f0409);}
   .op-stats{padding:12px 16px; display:grid; grid-template-columns:1fr 1fr; gap:8px; border-bottom:1px solid var(--border); font-size:0.78rem;}
   .op-stats div span{display:block; color:var(--muted); font-size:0.68rem; text-transform:uppercase;}
   .op-delta{padding:8px 16px; background:rgba(233,32,112,0.08); border-bottom:1px solid var(--border); font-size:0.75rem; color:var(--wom-accent); font-weight:600; text-align:center;}
@@ -375,15 +383,65 @@ function renderOperadorChips(){
 
 function renderKPIs(){
   const g = STATS.resumen_general;
+  const womStats = STATS.por_operador['WOM'];
+  const marketAvg = g.precio_promedio_mercado;
+
+  // KPI 1: Ventaja de precio WOM vs mercado
+  const priceDelta = marketAvg - womStats.precio_promedio;
+  const priceDeltaPct = ((priceDelta / marketAvg) * 100).toFixed(1);
+
+  // KPI 2: Planes ilimitados
+  const unlimitedPlans = PLANES.filter(p => p.operador === 'WOM' && p.datos_ilimitados).length;
+
+  // KPI 3: % planes con roaming
+  const roamingPct = womStats.pct_planes_con_roaming;
+
+  // KPI 4: Mejor plan 450GB vs competencia
+  const wom450 = PLANES.find(p => p.operador === 'WOM' && p.datos_gb === 450);
+  const competitors450 = PLANES.filter(p => p.operador !== 'WOM' && p.datos_gb === 450);
+  const cheaperCompetitor = competitors450.length ? Math.min(...competitors450.map(p => p.precio_efectivo)) : null;
+  const wom450Price = wom450 ? wom450.precio_efectivo : null;
+
   const kpis = [
-    {label:'Total planes analizados', value: g.total_planes, sub: g.total_operadores + ' operadores'},
-    {label:'Precio promedio mercado', value: fmtCLP(g.precio_promedio_mercado), sub:'mensual, precio vigente'},
-    {label:'Mediana de precio', value: fmtCLP(g.precio_mediana_mercado), sub:'50% de planes por debajo'},
-    {label:'CLP/GB promedio', value: g.precio_por_gb_promedio_mercado + ' CLP/GB', sub:'solo planes con tope de datos'},
-    {label:'Correlación datos↔precio', value: g.correlacion_datos_vs_precio, sub: Math.abs(g.correlacion_datos_vs_precio) < 0.3 ? 'correlación débil' : 'correlación relevante'},
+    {
+      label:'Ventaja WOM vs Mercado',
+      value: fmtCLP(priceDelta),
+      delta: `${priceDeltaPct}% más barato`,
+      deltaClass: 'positive',
+      sub:'precio promedio WOM vs promedio mercado',
+      highlight: true
+    },
+    {
+      label:'Planes Ilimitados',
+      value: unlimitedPlans,
+      sub: `de ${womStats.cantidad_planes} planes WOM con datos ilimitados`,
+      highlight: true
+    },
+    {
+      label:'Con Roaming Internacional',
+      value: `${roamingPct.toFixed(0)}%`,
+      sub: `de planes WOM incluyen roaming`,
+      highlight: false
+    },
+    {
+      label:'Mejor Plan 450GB',
+      value: fmtCLP(wom450Price),
+      delta: cheaperCompetitor && wom450Price ? (wom450Price < cheaperCompetitor ? `${fmtCLP(cheaperCompetitor - wom450Price)} cheaper` : `${fmtCLP(wom450Price - cheaperCompetitor)} more`) : null,
+      deltaClass: (cheaperCompetitor && wom450Price < cheaperCompetitor) ? 'positive' : 'negative',
+      sub: wom450Price ? 'entrada al portafolio WOM (450 GB)' : '—',
+      highlight: true
+    }
   ];
+
   document.getElementById('kpis').innerHTML = kpis.map(k=>`
-    <div class="kpi"><div class="label">${k.label}</div><div class="value">${k.value}</div><div class="sub">${k.sub}</div></div>
+    <div class="kpi ${k.highlight ? 'highlight' : ''}">
+      <div class="label">${k.label}</div>
+      <div class="value">
+        ${k.value}
+        ${k.delta ? `<span class="delta ${k.deltaClass}">${k.delta}</span>` : ''}
+      </div>
+      <div class="sub">${k.sub}</div>
+    </div>
   `).join('');
 }
 

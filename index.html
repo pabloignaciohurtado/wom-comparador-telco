@@ -109,6 +109,19 @@
   .tag.good{background:rgba(51,204,158,0.16); color:var(--good);}
   .no-results{padding:22px; text-align:center; color:var(--muted); font-size:0.85rem;}
   .offer-link{color:var(--wom-accent); text-decoration:none; font-weight:600; font-size:0.78rem; white-space:nowrap;}
+  .multi-controls{display:flex; align-items:center; gap:14px; margin-bottom:16px; flex-wrap:wrap;}
+  .multi-controls label{font-size:0.85rem; color:var(--muted);}
+  .multi-controls input[type=range]{width:220px;}
+  .multi-lines-count{font-weight:700; color:var(--wom-accent); font-size:1.05rem; min-width:70px; display:inline-block;}
+  .multi-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;}
+  .multi-card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px; position:relative;}
+  .multi-card.best::before{content:"Más barato"; position:absolute; top:-10px; right:12px; background:var(--wom-success); color:#0b2a20; font-size:0.65rem; font-weight:700; padding:2px 8px; border-radius:20px;}
+  .multi-card .mc-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
+  .multi-card .mc-op{font-weight:700;}
+  .multi-card .mc-total{font-size:1.4rem; font-weight:700; margin:4px 0 2px;}
+  .multi-card .mc-sub{font-size:0.75rem; color:var(--muted); margin-bottom:8px;}
+  .multi-card .mc-unconfirmed{font-size:0.78rem; color:var(--warn); line-height:1.4;}
+  .multi-note{font-size:0.78rem; color:var(--muted); margin-top:14px; line-height:1.5;}
   .offer-link:hover{text-decoration:underline;}
   .card-link{display:inline-block; margin:6px 12px 10px;}
 
@@ -218,6 +231,19 @@
     </div>
   </section>
 
+  <section class="block">
+    <h2>📱 Comparador de planes multilínea (2+ líneas)</h2>
+    <div class="card">
+      <div class="multi-controls">
+        <label for="multi-lines-range">Número de líneas en la boleta:</label>
+        <input type="range" id="multi-lines-range" min="2" max="5" step="1" value="2">
+        <span class="multi-lines-count" id="multi-lines-count">2 líneas</span>
+      </div>
+      <div class="multi-grid" id="multi-grid"></div>
+      <p class="multi-note" id="multi-note"></p>
+    </div>
+  </section>
+
   <footer id="footer"></footer>
 </main>
 
@@ -256,7 +282,47 @@ async function loadData(){
   renderBars();
   renderRanking();
   render();
+  renderMultilinea(2);
   renderFooter(planesJson.metadata);
+}
+
+function renderMultilinea(n){
+  const ml = STATS.multilinea;
+  if(!ml) return;
+  const ops = Object.keys(ml.por_operador).sort();
+  const confirmados = ops
+    .map(op => ml.por_operador[op])
+    .filter(e => e.confirmado);
+  const mejorCosto = confirmados.length
+    ? Math.min(...confirmados.map(e => e.por_n_lineas[String(n)].costo_total_promo))
+    : null;
+
+  document.getElementById('multi-grid').innerHTML = ops.map(op=>{
+    const e = ml.por_operador[op];
+    if(!e.confirmado){
+      return `
+      <div class="multi-card">
+        <div class="mc-head"><span class="mc-op" style="color:${OP_COLORS[op]}">${op}</span></div>
+        <div class="mc-unconfirmed">⚠️ Precio de línea adicional no confirmado. ${e.nota || ''}</div>
+        ${e.fuente ? `<a href="${e.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Consultar en el sitio oficial ↗</a>` : ''}
+      </div>`;
+    }
+    const d = e.por_n_lineas[String(n)];
+    const isBest = mejorCosto !== null && d.costo_total_promo === mejorCosto;
+    return `
+      <div class="multi-card ${isBest ? 'best' : ''}">
+        <div class="mc-head"><span class="mc-op" style="color:${OP_COLORS[op]}">${op}</span></div>
+        <div class="mc-total">${fmtCLP(d.costo_total_promo)}<small>/mes</small></div>
+        <div class="mc-sub">${fmtCLP(d.costo_por_linea_promo)} por línea · plan base: ${e.plan_base_mas_barato.nombre}</div>
+        <div class="mc-sub">Oferta: ${e.nombre_oferta_lineas} (${e.precio_linea_adicional_promo ? fmtCLP(e.precio_linea_adicional_promo) : '—'}/línea adicional, ${fmtCLP(e.precio_linea_adicional_regular)} tras la promo)</div>
+        ${e.fuente ? `<a href="${e.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Ver oferta oficial ↗</a>` : ''}
+      </div>`;
+  }).join('');
+
+  document.getElementById('multi-note').textContent =
+    'Costo total = plan base más barato del operador + (N-1) × precio de línea adicional, durante el período promocional. '
+    + (ml.operadores_no_confirmados.length ? `${ml.operadores_no_confirmados.join(', ')}: precio de línea adicional no confirmado con fuente oficial, no se incluye en la comparación numérica. ` : '')
+    + 'Cálculo con Python (scripts/analysis.py), sin uso de IA.';
 }
 
 function renderOperadorChips(){
@@ -428,6 +494,11 @@ document.querySelectorAll('[data-benefit]').forEach(chip=>{
   });
 });
 document.getElementById('sort-select').addEventListener('change', e=>{ state.sort = e.target.value; render(); });
+document.getElementById('multi-lines-range').addEventListener('input', e=>{
+  const n = Number(e.target.value);
+  document.getElementById('multi-lines-count').textContent = n + ' líneas';
+  renderMultilinea(n);
+});
 document.getElementById('reset-btn').addEventListener('click', ()=>{
   state = { operador:null, precioMax: Number(document.getElementById('filter-precio').max), datosMin:0, beneficios:new Set(), sort:'precio_asc' };
   document.getElementById('filter-precio').value = state.precioMax;

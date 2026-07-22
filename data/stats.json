@@ -224,5 +224,207 @@
       "nombre": "BAM 40GB Controlado",
       "precio_efectivo": 9900
     }
-  ]
+  ],
+  "multilinea": {
+    "por_operador": {
+      "Claro": {
+        "operador": "Claro",
+        "plan_base_mas_barato": {
+          "id": "claro-bam-15gb",
+          "nombre": "BAM 15GB Controlado",
+          "precio_efectivo": 7900
+        },
+        "confirmado": false,
+        "nota": "Claro tiene oferta de línea adicional (incluye campañas puntuales de 'línea adicional a costo $0'), pero no fue posible confirmar el precio vigente porque las páginas oficiales de línea adicional devolvieron error de acceso al momento de la consulta. Verificar directamente en clarochile.cl antes de usar para una decisión comercial.",
+        "fuente": "https://www.clarochile.cl/personas/linea-adicional-movil-planm/",
+        "por_n_lineas": {
+          "2": null,
+          "3": null,
+          "4": null,
+          "5": null
+        }
+      },
+      "Entel": {
+        "operador": "Entel",
+        "plan_base_mas_barato": {
+          "id": "entel-450-gigas",
+          "nombre": "450 Gigas (cuenta controlada)",
+          "precio_efectivo": 8495
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Plan Te Sumo",
+        "precio_linea_adicional_promo": 5495,
+        "precio_linea_adicional_regular": 10990,
+        "max_lineas_adicionales": 4,
+        "fuente": "https://www.entel.cl/planes/tesumo-cvm",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 13990,
+            "costo_total_regular": 19485,
+            "costo_por_linea_promo": 6995.0
+          },
+          "3": {
+            "costo_total_promo": 19485,
+            "costo_total_regular": 30475,
+            "costo_por_linea_promo": 6495.0
+          },
+          "4": {
+            "costo_total_promo": 24980,
+            "costo_total_regular": 41465,
+            "costo_por_linea_promo": 6245.0
+          },
+          "5": {
+            "costo_total_promo": 30475,
+            "costo_total_regular": 52455,
+            "costo_por_linea_promo": 6095.0
+          }
+        }
+      },
+      "Movistar": {
+        "operador": "Movistar",
+        "plan_base_mas_barato": {
+          "id": "movistar-libre-450",
+          "nombre": "Plan Libre 450",
+          "precio_efectivo": 7990
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Planes Adicionales 2x",
+        "precio_linea_adicional_promo": 5990,
+        "precio_linea_adicional_regular": 9990,
+        "max_lineas_adicionales": null,
+        "fuente": "https://ww2.movistar.cl/movil/planes-adicionales/",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 13980,
+            "costo_total_regular": 17980,
+            "costo_por_linea_promo": 6990.0
+          },
+          "3": {
+            "costo_total_promo": 19970,
+            "costo_total_regular": 27970,
+            "costo_por_linea_promo": 6657.0
+          },
+          "4": {
+            "costo_total_promo": 25960,
+            "costo_total_regular": 37960,
+            "costo_por_linea_promo": 6490.0
+          },
+          "5": {
+            "costo_total_promo": 31950,
+            "costo_total_regular": 47950,
+            "costo_por_linea_promo": 6390.0
+          }
+        }
+      },
+      "WOM": {
+        "operador": "WOM",
+        "plan_base_mas_barato": {
+          "id": "wom-450gb",
+          "nombre": "450 GB",
+          "precio_efectivo": 8990
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Plan adicional WOM",
+        "precio_linea_adicional_promo": 4990,
+        "precio_linea_adicional_regular": 9990,
+        "max_lineas_adicionales": null,
+        "fuente": "https://wompromociones.cl/p/td/wom-planes-moviles.html",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 13980,
+            "costo_total_regular": 18980,
+            "costo_por_linea_promo": 6990.0
+          },
+          "3": {
+            "costo_total_promo": 18970,
+            "costo_total_regular": 28970,
+            "costo_por_linea_promo": 6323.0
+          },
+          "4": {
+            "costo_total_promo": 23960,
+            "costo_total_regular": 38960,
+            "costo_por_linea_promo": 5990.0
+          },
+          "5": {
+            "costo_total_promo": 28950,
+            "costo_total_regular": 48950,
+            "costo_por_linea_promo": 5790.0
+          }
+        }
+      }
+    },
+    "ranking_por_n_lineas": {
+      "2": [
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 13980,
+          "costo_por_linea_promo": 6990.0
+        },
+        {
+          "operador": "WOM",
+          "costo_total_promo": 13980,
+          "costo_por_linea_promo": 6990.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 13990,
+          "costo_por_linea_promo": 6995.0
+        }
+      ],
+      "3": [
+        {
+          "operador": "WOM",
+          "costo_total_promo": 18970,
+          "costo_por_linea_promo": 6323.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 19485,
+          "costo_por_linea_promo": 6495.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 19970,
+          "costo_por_linea_promo": 6657.0
+        }
+      ],
+      "4": [
+        {
+          "operador": "WOM",
+          "costo_total_promo": 23960,
+          "costo_por_linea_promo": 5990.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 24980,
+          "costo_por_linea_promo": 6245.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 25960,
+          "costo_por_linea_promo": 6490.0
+        }
+      ],
+      "5": [
+        {
+          "operador": "WOM",
+          "costo_total_promo": 28950,
+          "costo_por_linea_promo": 5790.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 30475,
+          "costo_por_linea_promo": 6095.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 31950,
+          "costo_por_linea_promo": 6390.0
+        }
+      ]
+    },
+    "operadores_no_confirmados": [
+      "Claro"
+    ]
+  }
 }

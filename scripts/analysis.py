@@ -16,7 +16,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 INPUT_PATH = ROOT / "data" / "planes.json"
+MULTILINEA_PATH = ROOT / "data" / "planes_multilinea.json"
 OUTPUT_PATH = ROOT / "data" / "stats.json"
+
+LINEAS_RANGO = [2, 3, 4, 5]
 
 
 def precio_efectivo(plan):
@@ -82,6 +85,78 @@ def correlacion_precio_datos(planes):
         return None
 
 
+def resumen_multilinea(planes, ofertas_multilinea):
+    """
+    Calcula el costo total de boleta para N lineas (2..5) por operador:
+    costo_total(N) = precio_efectivo del plan base mas barato del operador
+                     + (N-1) x precio_linea_adicional (promo o regular)
+
+    Si el operador no tiene precio de linea adicional confirmado (confirmado=false
+    o valores null), se excluye de los rankings numericos y se marca 'confirmado': false.
+    """
+    ofertas_por_operador = {o["operador"]: o for o in ofertas_multilinea}
+    operadores = sorted({p["operador"] for p in planes})
+
+    por_operador = {}
+    for op in operadores:
+        planes_op = [p for p in planes if p["operador"] == op]
+        plan_base = min(planes_op, key=precio_efectivo)
+        oferta = ofertas_por_operador.get(op)
+
+        entry = {
+            "operador": op,
+            "plan_base_mas_barato": {
+                "id": plan_base["id"],
+                "nombre": plan_base["nombre"],
+                "precio_efectivo": precio_efectivo(plan_base),
+            },
+            "confirmado": bool(oferta and oferta.get("confirmado")),
+        }
+
+        if oferta and oferta.get("confirmado"):
+            precio_base = precio_efectivo(plan_base)
+            precio_adic_promo = oferta["precio_linea_adicional_promo"]
+            precio_adic_regular = oferta["precio_linea_adicional_regular"]
+            entry["nombre_oferta_lineas"] = oferta["nombre_oferta"]
+            entry["precio_linea_adicional_promo"] = precio_adic_promo
+            entry["precio_linea_adicional_regular"] = precio_adic_regular
+            entry["max_lineas_adicionales"] = oferta.get("max_lineas_adicionales")
+            entry["fuente"] = oferta.get("fuente")
+            entry["por_n_lineas"] = {
+                str(n): {
+                    "costo_total_promo": precio_base + (n - 1) * precio_adic_promo,
+                    "costo_total_regular": precio_base + (n - 1) * precio_adic_regular,
+                    "costo_por_linea_promo": round((precio_base + (n - 1) * precio_adic_promo) / n, 0),
+                }
+                for n in LINEAS_RANGO
+            }
+        else:
+            entry["nota"] = (oferta or {}).get("notas", "Precio de línea adicional no confirmado.")
+            entry["fuente"] = (oferta or {}).get("fuente")
+            entry["por_n_lineas"] = {str(n): None for n in LINEAS_RANGO}
+
+        por_operador[op] = entry
+
+    ranking_por_n = {}
+    for n in LINEAS_RANGO:
+        candidatos = [
+            {
+                "operador": op,
+                "costo_total_promo": entry["por_n_lineas"][str(n)]["costo_total_promo"],
+                "costo_por_linea_promo": entry["por_n_lineas"][str(n)]["costo_por_linea_promo"],
+            }
+            for op, entry in por_operador.items()
+            if entry["confirmado"]
+        ]
+        ranking_por_n[str(n)] = sorted(candidatos, key=lambda c: c["costo_total_promo"])
+
+    return {
+        "por_operador": por_operador,
+        "ranking_por_n_lineas": ranking_por_n,
+        "operadores_no_confirmados": [op for op, e in por_operador.items() if not e["confirmado"]],
+    }
+
+
 def main():
     raw = json.loads(INPUT_PATH.read_text(encoding="utf-8"))
     planes = raw["planes"]
@@ -104,6 +179,9 @@ def main():
         key=lambda p: p["precio_por_gb"],
     )
     ranking_mas_barato_absoluto = sorted(planes, key=precio_efectivo)
+
+    multilinea_raw = json.loads(MULTILINEA_PATH.read_text(encoding="utf-8"))
+    multilinea = resumen_multilinea(planes, multilinea_raw["ofertas"])
 
     stats = {
         "generado_desde": str(INPUT_PATH.name),
@@ -137,6 +215,7 @@ def main():
             }
             for p in ranking_mas_barato_absoluto[:5]
         ],
+        "multilinea": multilinea,
     }
 
     OUTPUT_PATH.write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")

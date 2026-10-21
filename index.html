@@ -394,7 +394,7 @@ function renderMultilinea(n){
         <div class="mc-head"><span class="mc-op" style="color:${OP_COLORS[op]}">${op}</span></div>
         <div class="mc-total">${fmtCLP(d.costo_total_promo)}<small>/mes</small></div>
         <div class="mc-sub">${fmtCLP(d.costo_por_linea_promo)} por línea · plan base: ${e.plan_base_mas_barato.nombre}</div>
-        <div class="mc-sub">Oferta: ${e.nombre_oferta_lineas} (${e.precio_linea_adicional_promo ? fmtCLP(e.precio_linea_adicional_promo) : '—'}/línea adicional, ${fmtCLP(e.precio_linea_adicional_regular)} tras la promo)</div>
+        <div class="mc-sub">Oferta: ${e.nombre_oferta_lineas} (${e.precio_linea_adicional_promo !== e.precio_linea_adicional_regular ? `${fmtCLP(e.precio_linea_adicional_promo)}/línea adicional, ${fmtCLP(e.precio_linea_adicional_regular)} tras la promo` : `${fmtCLP(e.precio_linea_adicional_regular)}/línea adicional, sin promo`})</div>
         ${e.fuente ? `<a href="${e.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link">Ver oferta oficial ↗</a>` : ''}
       </div>`;
   }).join('');
@@ -434,18 +434,17 @@ function renderKPIs(){
   // KPI 3: % planes con roaming
   const roamingPct = womStats.pct_planes_con_roaming;
 
-  // KPI 4: Mejor plan 450GB vs competencia
-  const wom450 = PLANES.find(p => p.operador === 'WOM' && p.datos_gb === 450);
-  const competitors450 = PLANES.filter(p => p.operador !== 'WOM' && p.datos_gb === 450);
-  const cheaperCompetitor = competitors450.length ? Math.min(...competitors450.map(p => p.precio_efectivo)) : null;
-  const wom450Price = wom450 ? wom450.precio_efectivo : null;
+  // KPI 4: Costo por GB de WOM vs promedio del mercado (solo planes con GB informado)
+  const womPPG = womStats.precio_por_gb_promedio;
+  const marketPPG = g.precio_por_gb_promedio_mercado;
+  const ppgDeltaPct = (womPPG && marketPPG) ? (((womPPG - marketPPG) / marketPPG) * 100) : null;
 
   const kpis = [
     {
       label:'Ventaja WOM vs Mercado',
-      value: fmtCLP(priceDelta),
-      delta: `${priceDeltaPct}% más barato`,
-      deltaClass: 'positive',
+      value: fmtCLP(Math.abs(priceDelta)),
+      delta: priceDelta >= 0 ? `${priceDeltaPct}% más barato` : `${Math.abs(priceDeltaPct)}% más caro`,
+      deltaClass: priceDelta >= 0 ? 'positive' : 'negative',
       sub:'precio promedio WOM vs promedio mercado',
       highlight: true
     },
@@ -462,11 +461,11 @@ function renderKPIs(){
       highlight: false
     },
     {
-      label:'Mejor Plan 450GB',
-      value: fmtCLP(wom450Price),
-      delta: cheaperCompetitor && wom450Price ? (wom450Price < cheaperCompetitor ? `${fmtCLP(cheaperCompetitor - wom450Price)} cheaper` : `${fmtCLP(wom450Price - cheaperCompetitor)} more`) : null,
-      deltaClass: (cheaperCompetitor && wom450Price < cheaperCompetitor) ? 'positive' : 'negative',
-      sub: wom450Price ? 'entrada al portafolio WOM (450 GB)' : '—',
+      label:'Costo por GB WOM',
+      value: womPPG ? `${womPPG} CLP/GB` : '—',
+      delta: ppgDeltaPct === null ? null : (ppgDeltaPct <= 0 ? `${Math.abs(ppgDeltaPct).toFixed(0)}% bajo el mercado` : `${ppgDeltaPct.toFixed(0)}% sobre el mercado`),
+      deltaClass: (ppgDeltaPct !== null && ppgDeltaPct <= 0) ? 'positive' : 'negative',
+      sub: marketPPG ? `promedio mercado ${marketPPG} CLP/GB (planes con GB informado)` : '—',
       highlight: true
     }
   ];
@@ -568,17 +567,20 @@ function renderOpPanels(filtered){
           <span class="price">${fmtCLP(p.precio_efectivo)}<small>/mes</small></span>
         </div>
         <div class="meta">
-          <span class="tag">${p.datos_ilimitados ? 'Datos ilimitados' : p.datos_gb+' GB'}</span>
+          <span class="tag">${p.datos_ilimitados ? 'Datos ilimitados' : (p.datos_gb ? p.datos_gb+' GB' : 'GB s/i')}</span>
           ${p.precio_por_gb ? `<span class="tag">${p.precio_por_gb} CLP/GB</span>`:''}
           ${p.roaming_incluido ? '<span class="tag good">Roaming</span>':''}
           ${p.redes_sociales_gratis ? '<span class="tag good">Redes gratis</span>':''}
+          ${p.verificado === false ? '<span class="tag" title="Dato no verificado en fuente oficial">⚠️ No verificado</span>':''}
           ${p.precio_promo ? `<span class="tag">Promo ${p.meses_promo||''}m → ${fmtCLP(p.precio_regular)}</span>`:''}
         </div>
         ${p.fuente ? `<a href="${p.fuente}" target="_blank" rel="noopener noreferrer" class="offer-link card-link">Ver oferta oficial ↗</a>` : ''}
       </div>`).join('') : '<div class="no-results">Sin planes que cumplan los filtros</div>';
 
     const isWom = op === 'WOM';
-    const deltaHtml = !isWom && womPromedio
+    const deltaHtml = !isWom && womPromedio && Math.round(s.precio_promedio) === Math.round(womPromedio)
+      ? `<div class="op-delta">= Mismo precio promedio que WOM</div>`
+      : !isWom && womPromedio
       ? `<div class="op-delta ${s.precio_promedio < womPromedio ? 'negative' : 'positive'}">
            ${s.precio_promedio < womPromedio ? '✓' : '▲'}
            ${Math.abs(Math.round(s.precio_promedio - womPromedio))} CLP
@@ -631,7 +633,7 @@ function renderDetailTable(filtered){
         <td>${p.nombre}</td>
         <td>${p.precio_promo ? fmtCLP(p.precio_promo) : '—'}</td>
         <td>${fmtCLP(p.precio_regular)}</td>
-        <td>${p.datos_ilimitados ? 'Ilimitado' : p.datos_gb+' GB'}</td>
+        <td>${p.datos_ilimitados ? 'Ilimitado' : (p.datos_gb ? p.datos_gb+' GB' : 'GB s/i')}</td>
         <td>${p.minutos ?? '—'}</td>
         <td>${p.sms ?? '—'}</td>
         <td>${p.roaming_incluido ? '✅' : '—'}</td>
@@ -674,7 +676,7 @@ function renderDetailTable(filtered){
 function renderFooter(meta){
   document.getElementById('footer').innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" width="61" height="26" fill="none" viewBox="0 0 61 26" style="opacity:0.6; margin-bottom:8px; display:block; margin-left:auto; margin-right:auto;"><path d="M20.594 4.051c.574-.066.885.244.836.851L20.054 23.47c-.028.492-.332.786-.821.838l-3.855.456c-.493.059-.821-.162-.983-.633l-2.264-6.797c-.086-.273-.304-.25-.326.042l-.744 7.147c-.057.499-.33.788-.823.847l-3.853.45c-.494.059-.849-.159-.983-.63L.056 7.411c-.174-.584.064-.957.637-1.024l3.252-.381c.495-.058.877.154.984.629l2.846 11.642c.087.278.303.252.33-.04l.541-12.037c.03-.489.333-.786.821-.841l2.353-.275c.492-.059.847.157.982.631l3.12 11.607c.087.279.303.254.33-.038l.267-12.007c.004-.489.328-.784.823-.842l3.253-.384zm9.966-1.684c6.477-.76 6.469 4.321 6.322 6.235l-.557 7.241c-.145 1.914-.921 7.086-7.398 7.85s-6.47-4.326-6.324-6.237l.56-7.246c.143-1.912.919-7.088 7.396-7.843zM53.218.224c.492-.058.849.159.981.631l5.345 17.78c.178.581-.059.952-.635 1.022l-3.252.381c-.491.055-.877-.155-.983-.631L51.825 7.765c-.084-.276-.303-.249-.326.04l-.542 12.037c-.027.491-.33.788-.822.843l-2.35.274c-.492.061-.847-.158-.98-.63L43.684 8.723c-.086-.276-.305-.25-.331.039l-.267 12.007c-.003.484-.331.783-.822.841l-3.252.382c-.576.068-.885-.242-.84-.849l1.377-18.568c.03-.492.332-.785.823-.845l3.855-.45c.491-.059.819.162.982.629l2.265 6.802c.084.274.304.248.326-.041l.742-7.148c.058-.495.329-.786.824-.844l3.852-.453zM32.064 10.689c.17-2.231.139-3.576-1.885-3.339s-2.266 1.614-2.437 3.847l-.318 4.169c-.173 2.234-.138 3.579 1.883 3.341 2.026-.237 2.27-1.615 2.436-3.844l.322-4.174z" fill="#DBCCE8"/></svg>
-    Datos actualizados el ${meta.fecha_actualizacion} · Fuentes: sitios oficiales de cada operador y agregadores especializados (fonochile.com, cuantomecuesta.com, celulares.com).
+    Datos actualizados el ${meta.fecha_actualizacion} · ${meta.fuente_nota || 'Fuentes: sitios oficiales de cada operador.'}
     Estadísticas calculadas con Python (scripts/analysis.py) — sin uso de IA. Uso interno de análisis de mercado.
   `;
 }

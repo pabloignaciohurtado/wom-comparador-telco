@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validar consistencia de los datos
+        run: python3 scripts/validate_data.py
+
+      - name: Verificar que stats.json está al día (comparación semántica)
+        run: |
+          cp data/stats.json /tmp/stats_commiteado.json
+          python3 scripts/analysis.py
+          python3 - <<'PY'
+          import json, sys
+          a = json.load(open("/tmp/stats_commiteado.json", encoding="utf-8"))
+          b = json.load(open("data/stats.json", encoding="utf-8"))
+          if a != b:
+              print("::error::data/stats.json está desactualizado. Corre 'python3 scripts/analysis.py' y commitea el resultado.")
+              sys.exit(1)
+          print("stats.json coincide con lo calculado desde planes.json")
+          PY
+
+      - name: Validar estructura de index.html
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          html = Path("index.html").read_text(encoding="utf-8")
+          for needle in ("<html", "data/planes.json", "data/stats.json"):
+              assert needle in html, f"index.html no contiene {needle}"
+          class P(HTMLParser):
+              pass
+          P().feed(html)
+          print("index.html OK")
+          PY
+
+      - name: Validar sintaxis del JavaScript embebido
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", html, re.S)
+          Path("/tmp/inline.js").write_text("\n;\n".join(scripts), encoding="utf-8")
+          print(f"{len(scripts)} bloque(s) de script extraídos")
+          PY
+          node --check /tmp/inline.js

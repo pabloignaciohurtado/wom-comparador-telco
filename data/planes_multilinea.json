@@ -2,7 +2,7 @@
   "metadata": {
     "fecha_actualizacion": "2026-10-21",
     "moneda": "CLP",
-    "nota": "Precio de la línea adicional que se suma a un plan base ya contratado. Total de la boleta para N líneas = plan base más barato del operador + (N-1) × precio de línea adicional. Claro no confirmado (sitio oficial bloqueó la consulta)."
+    "nota": "Precio de la línea adicional que se suma a un plan base ya contratado. Total de la boleta para N líneas = plan base más barato del operador + (N-1) × precio de línea adicional."
   },
   "ofertas": [
     {
@@ -43,14 +43,14 @@
     },
     {
       "operador": "Claro",
-      "nombre_oferta": "Línea adicional Claro",
+      "nombre_oferta": "Línea adicional Claro (cliente nuevo)",
       "precio_linea_adicional_promo": null,
-      "precio_linea_adicional_regular": null,
+      "precio_linea_adicional_regular": 7990,
       "meses_promo": null,
       "max_lineas_adicionales": null,
-      "replica_beneficios_plan_base": null,
-      "confirmado": false,
-      "notas": "No fue posible confirmar el precio vigente: el sitio oficial de Claro bloqueó la consulta. Verificar en clarochile.cl.",
+      "replica_beneficios_plan_base": true,
+      "confirmado": true,
+      "notas": "$7.990 por línea sobre el plan de $9.990; $6.990 sobre el de 800 GB y $4.990 sobre el de 1.000 GB Plus. Clientes actuales: $4.990 por 6 meses y luego $6.990.",
       "fuente": "https://www.clarochile.cl/personas/servicios/servicios-moviles/"
     }
   ]

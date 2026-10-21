@@ -4,35 +4,35 @@
   "resumen_general": {
     "total_planes": 15,
     "total_operadores": 4,
-    "precio_promedio_mercado": 15684.0,
+    "precio_promedio_mercado": 15551,
     "precio_mediana_mercado": 13990,
-    "precio_por_gb_promedio_mercado": 30.6,
-    "correlacion_datos_vs_precio": 0.58
+    "precio_por_gb_promedio_mercado": 26.1,
+    "correlacion_datos_vs_precio": 0.373
   },
   "por_operador": {
     "Claro": {
       "operador": "Claro",
       "cantidad_planes": 3,
-      "precio_promedio": 13657.0,
-      "precio_mediana": 12990,
+      "precio_promedio": 12990,
+      "precio_mediana": 11990,
       "precio_regular_promedio": 13657.0,
       "precio_min": 9990,
-      "precio_max": 17990,
-      "desviacion_estandar_precio": 3299.8,
-      "precio_por_gb_promedio": null,
-      "precio_por_gb_mediana": null,
-      "pct_planes_con_roaming": 0.0,
+      "precio_max": 16990,
+      "desviacion_estandar_precio": 2943.9,
+      "precio_por_gb_promedio": 14.0,
+      "precio_por_gb_mediana": 15.0,
+      "pct_planes_con_roaming": 100.0,
       "pct_planes_redes_sociales_gratis": 0.0,
       "cantidad_planes_datos_ilimitados": 0,
       "plan_mas_barato": {
-        "id": "claro-plan-9990",
-        "nombre": "Plan $9.990",
+        "id": "claro-gigas-libres-1000-1ano",
+        "nombre": "Gigas Libres 1.000 GB",
         "precio": 9990
       },
       "plan_mas_caro": {
-        "id": "claro-plan-17990",
-        "nombre": "Plan $17.990",
-        "precio": 17990
+        "id": "claro-gigas-libres-1000",
+        "nombre": "Gigas Libres 1.000 GB Plus",
+        "precio": 16990
       }
     },
     "Entel": {
@@ -113,6 +113,14 @@
   },
   "ranking_precio_por_gb_top10": [
     {
+      "id": "claro-gigas-libres-1000-1ano",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 1.000 GB",
+      "precio_por_gb": 9.99,
+      "precio_efectivo": 9990,
+      "datos_gb": 1000
+    },
+    {
       "id": "entel-1000-gigas",
       "operador": "Entel",
       "nombre": "Plan 1.000 Gigas (cuenta controlada)",
@@ -127,6 +135,22 @@
       "precio_por_gb": 14.87,
       "precio_efectivo": 11893,
       "datos_gb": 800
+    },
+    {
+      "id": "claro-gigas-libres-800",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 800 GB",
+      "precio_por_gb": 14.99,
+      "precio_efectivo": 11990,
+      "datos_gb": 800
+    },
+    {
+      "id": "claro-gigas-libres-1000",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 1.000 GB Plus",
+      "precio_por_gb": 16.99,
+      "precio_efectivo": 16990,
+      "datos_gb": 1000
     },
     {
       "id": "movistar-libre-800",
@@ -167,21 +191,13 @@
       "precio_por_gb": 46.63,
       "precio_efectivo": 13990,
       "datos_gb": 300
-    },
-    {
-      "id": "wom-plan-w",
-      "operador": "WOM",
-      "nombre": "Plan W (150 GB)",
-      "precio_por_gb": 73.27,
-      "precio_efectivo": 10990,
-      "datos_gb": 150
     }
   ],
   "ranking_mas_barato_absoluto_top5": [
     {
-      "id": "claro-plan-9990",
+      "id": "claro-gigas-libres-1000-1ano",
       "operador": "Claro",
-      "nombre": "Plan $9.990",
+      "nombre": "Gigas Libres 1.000 GB",
       "precio_efectivo": 9990
     },
     {
@@ -203,10 +219,10 @@
       "precio_efectivo": 11893
     },
     {
-      "id": "claro-plan-12990",
+      "id": "claro-gigas-libres-800",
       "operador": "Claro",
-      "nombre": "Plan $12.990",
-      "precio_efectivo": 12990
+      "nombre": "Gigas Libres 800 GB",
+      "precio_efectivo": 11990
     }
   ],
   "multilinea": {
@@ -214,18 +230,37 @@
       "Claro": {
         "operador": "Claro",
         "plan_base_mas_barato": {
-          "id": "claro-plan-9990",
-          "nombre": "Plan $9.990",
+          "id": "claro-gigas-libres-1000-1ano",
+          "nombre": "Gigas Libres 1.000 GB",
           "precio_efectivo": 9990
         },
-        "confirmado": false,
-        "nota": "No fue posible confirmar el precio vigente: el sitio oficial de Claro bloqueó la consulta. Verificar en clarochile.cl.",
+        "confirmado": true,
+        "nombre_oferta_lineas": "Línea adicional Claro (cliente nuevo)",
+        "precio_linea_adicional_promo": 7990,
+        "precio_linea_adicional_regular": 7990,
+        "max_lineas_adicionales": null,
         "fuente": "https://www.clarochile.cl/personas/servicios/servicios-moviles/",
         "por_n_lineas": {
-          "2": null,
-          "3": null,
-          "4": null,
-          "5": null
+          "2": {
+            "costo_total_promo": 17980,
+            "costo_total_regular": 17980,
+            "costo_por_linea_promo": 8990.0
+          },
+          "3": {
+            "costo_total_promo": 25970,
+            "costo_total_regular": 25970,
+            "costo_por_linea_promo": 8657.0
+          },
+          "4": {
+            "costo_total_promo": 33960,
+            "costo_total_regular": 33960,
+            "costo_por_linea_promo": 8490.0
+          },
+          "5": {
+            "costo_total_promo": 41950,
+            "costo_total_regular": 41950,
+            "costo_por_linea_promo": 8390.0
+          }
         }
       },
       "Entel": {
@@ -340,6 +375,11 @@
     "ranking_por_n_lineas": {
       "2": [
         {
+          "operador": "Claro",
+          "costo_total_promo": 17980,
+          "costo_por_linea_promo": 8990.0
+        },
+        {
           "operador": "WOM",
           "costo_total_promo": 18980,
           "costo_por_linea_promo": 9490.0
@@ -356,6 +396,11 @@
         }
       ],
       "3": [
+        {
+          "operador": "Claro",
+          "costo_total_promo": 25970,
+          "costo_por_linea_promo": 8657.0
+        },
         {
           "operador": "WOM",
           "costo_total_promo": 26970,
@@ -374,6 +419,11 @@
       ],
       "4": [
         {
+          "operador": "Claro",
+          "costo_total_promo": 33960,
+          "costo_por_linea_promo": 8490.0
+        },
+        {
           "operador": "WOM",
           "costo_total_promo": 34960,
           "costo_por_linea_promo": 8740.0
@@ -391,6 +441,11 @@
       ],
       "5": [
         {
+          "operador": "Claro",
+          "costo_total_promo": 41950,
+          "costo_por_linea_promo": 8390.0
+        },
+        {
           "operador": "Entel",
           "costo_total_promo": 42665,
           "costo_por_linea_promo": 8533.0
@@ -407,8 +462,6 @@
         }
       ]
     },
-    "operadores_no_confirmados": [
-      "Claro"
-    ]
+    "operadores_no_confirmados": []
   }
 }

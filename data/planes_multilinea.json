@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "fecha_actualizacion": "2026-10-21",
+    "moneda": "CLP",
+    "nota": "Precio de la línea adicional que se suma a un plan base ya contratado. Total de la boleta para N líneas = plan base más barato del operador + (N-1) × precio de línea adicional."
+  },
+  "ofertas": [
+    {
+      "operador": "WOM",
+      "nombre_oferta": "Línea adicional Planes Simples",
+      "precio_linea_adicional_promo": null,
+      "precio_linea_adicional_regular": 7990,
+      "meses_promo": null,
+      "max_lineas_adicionales": null,
+      "replica_beneficios_plan_base": true,
+      "confirmado": true,
+      "notas": "$7.990 por línea en planes W, O y M. La campaña de 2 meses gratis terminó el 19-oct-2026.",
+      "fuente": "https://store.wom.cl/planes/planes-portabilidad/grupales"
+    },
+    {
+      "operador": "Movistar",
+      "nombre_oferta": "Planes adicionales",
+      "precio_linea_adicional_promo": null,
+      "precio_linea_adicional_regular": 9990,
+      "meses_promo": null,
+      "max_lineas_adicionales": null,
+      "replica_beneficios_plan_base": true,
+      "confirmado": true,
+      "notas": "$9.990 por línea sobre Libre 450 (plan base más barato); $7.990 sobre Libre 800 y Libre 1000.",
+      "fuente": "https://ww2.movistar.cl/movil/planes-portabilidad/"
+    },
+    {
+      "operador": "Entel",
+      "nombre_oferta": "Plan Te Sumo",
+      "precio_linea_adicional_promo": 7693,
+      "precio_linea_adicional_regular": 10990,
+      "meses_promo": 6,
+      "max_lineas_adicionales": 4,
+      "replica_beneficios_plan_base": true,
+      "confirmado": true,
+      "notas": "Hasta 4 líneas bajo el mismo RUT; $7.693 por 6 meses y luego $10.990 (la página es ambigua sobre el precio posterior).",
+      "fuente": "https://www.entel.cl/planes/tesumo-cvm"
+    },
+    {
+      "operador": "Claro",
+      "nombre_oferta": "Línea adicional Claro (cliente nuevo)",
+      "precio_linea_adicional_promo": null,
+      "precio_linea_adicional_regular": 7990,
+      "meses_promo": null,
+      "max_lineas_adicionales": null,
+      "replica_beneficios_plan_base": true,
+      "confirmado": true,
+      "notas": "$7.990 por línea sobre el plan de $9.990; $6.990 sobre el de 800 GB y $4.990 sobre el de 1.000 GB Plus. Clientes actuales: $4.990 por 6 meses y luego $6.990.",
+      "fuente": "https://www.clarochile.cl/personas/servicios/servicios-moviles/"
+    }
+  ]
+}

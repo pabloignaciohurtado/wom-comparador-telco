@@ -1,1 +1,467 @@
-{"generado_desde":"planes.json","fecha_actualizacion":"2026-07-21","resumen_general":{"total_planes":16,"total_operadores":4,"precio_promedio_mercado":13512.0,"precio_mediana_mercado":11990.0,"precio_por_gb_promedio_mercado":116.8,"correlacion_datos_vs_precio":-0.061},"por_operador":{"Claro":{"operador":"Claro","cantidad_planes":5,"precio_promedio":15958,"precio_mediana":11990,"precio_regular_promedio":15958,"precio_min":7900,"precio_max":32000,"desviacion_estandar_precio":8705.1,"precio_por_gb_promedio":227.6,"precio_por_gb_mediana":180.0,"pct_planes_con_roaming":0.0,"pct_planes_redes_sociales_gratis":0.0,"cantidad_planes_datos_ilimitados":0,"plan_mas_barato":{"id":"claro-bam-15gb","nombre":"BAM 15GB Controlado","precio":7900},"plan_mas_caro":{"id":"claro-bam-200gb","nombre":"BAM 200GB Controlado","precio":32000}},"Entel":{"operador":"Entel","cantidad_planes":4,"precio_promedio":13870,"precio_mediana":13495.0,"precio_regular_promedio":13870,"precio_min":8495,"precio_max":19995,"desviacion_estandar_precio":4218.6,"precio_por_gb_promedio":24.3,"precio_por_gb_mediana":24.3,"pct_planes_con_roaming":50.0,"pct_planes_redes_sociales_gratis":25.0,"cantidad_planes_datos_ilimitados":3,"plan_mas_barato":{"id":"entel-450-gigas","nombre":"450 Gigas (cuenta controlada)","precio":8495},"plan_mas_caro":{"id":"entel-plan-libre-roaming-pro","nombre":"Plan Libre con Roaming Pro","precio":19995}},"Movistar":{"operador":"Movistar","cantidad_planes":3,"precio_promedio":11657.0,"precio_mediana":11990,"precio_regular_promedio":19657.0,"precio_min":7990,"precio_max":14990,"desviacion_estandar_precio":2867.4,"precio_por_gb_promedio":15.9,"precio_por_gb_mediana":15.0,"pct_planes_con_roaming":66.7,"pct_planes_redes_sociales_gratis":100.0,"cantidad_planes_datos_ilimitados":0,"plan_mas_barato":{"id":"movistar-libre-450","nombre":"Plan Libre 450","precio":7990},"plan_mas_caro":{"id":"movistar-libre-1000","nombre":"Plan Libre 1000","precio":14990}},"WOM":{"operador":"WOM","cantidad_planes":4,"precio_promedio":11490,"precio_mediana":11490.0,"precio_regular_promedio":17740,"precio_min":8990,"precio_max":13990,"desviacion_estandar_precio":1802.8,"precio_por_gb_promedio":37.5,"precio_por_gb_mediana":37.5,"pct_planes_con_roaming":75.0,"pct_planes_redes_sociales_gratis":100.0,"cantidad_planes_datos_ilimitados":2,"plan_mas_barato":{"id":"wom-450gb","nombre":"450 GB","precio":8990},"plan_mas_caro":{"id":"wom-gigas-libres-plus","nombre":"Gigas Libres+","precio":13990}}},"ranking_precio_por_gb_top10":[{"id":"movistar-libre-800","operador":"Movistar","nombre":"Plan Libre 800","precio_por_gb":14.99,"precio_efectivo":11990,"datos_gb":800},{"id":"movistar-libre-1000","operador":"Movistar","nombre":"Plan Libre 1000","precio_por_gb":14.99,"precio_efectivo":14990,"datos_gb":1000},{"id":"movistar-libre-450","operador":"Movistar","nombre":"Plan Libre 450","precio_por_gb":17.76,"precio_efectivo":7990,"datos_gb":450},{"id":"wom-450gb","operador":"WOM","nombre":"450 GB","precio_por_gb":19.98,"precio_efectivo":8990,"datos_gb":450},{"id":"claro-500gb-ilimitado","operador":"Claro","nombre":"500GB Ilimitado (llamadas/SMS)","precio_por_gb":23.98,"precio_efectivo":11990,"datos_gb":500},{"id":"entel-450-gigas","operador":"Entel","nombre":"450 Gigas (cuenta controlada)","precio_por_gb":24.27,"precio_efectivo":8495,"datos_gb":350},{"id":"wom-200gb","operador":"WOM","nombre":"200 GB","precio_por_gb":54.95,"precio_efectivo":10990,"datos_gb":200},{"id":"claro-bam-200gb","operador":"Claro","nombre":"BAM 200GB Controlado","precio_por_gb":160.0,"precio_efectivo":32000,"datos_gb":200},{"id":"claro-bam-100gb","operador":"Claro","nombre":"BAM 100GB Controlado","precio_por_gb":180.0,"precio_efectivo":18000,"datos_gb":100},{"id":"claro-bam-40gb","operador":"Claro","nombre":"BAM 40GB Controlado","precio_por_gb":247.5,"precio_efectivo":9900,"datos_gb":40}],"ranking_mas_barato_absoluto_top5":[{"id":"claro-bam-15gb","operador":"Claro","nombre":"BAM 15GB Controlado","precio_efectivo":7900},{"id":"movistar-libre-450","operador":"Movistar","nombre":"Plan Libre 450","precio_efectivo":7990},{"id":"entel-450-gigas","operador":"Entel","nombre":"450 Gigas (cuenta controlada)","precio_efectivo":8495},{"id":"wom-450gb","operador":"WOM","nombre":"450 GB","precio_efectivo":8990},{"id":"claro-bam-40gb","operador":"Claro","nombre":"BAM 40GB Controlado","precio_efectivo":9900}],"multilinea":{"por_operador":{"Claro":{"operador":"Claro","plan_base_mas_barato":{"id":"claro-bam-15gb","nombre":"BAM 15GB Controlado","precio_efectivo":7900},"confirmado":false,"nota":"Claro tiene oferta de línea adicional (incluye campañas puntuales de 'línea adicional a costo $0'), pero no fue posible confirmar el precio vigente porque las páginas oficiales de línea adicional devolvieron error de acceso al momento de la consulta. Verificar directamente en clarochile.cl antes de usar para una decisión comercial.","fuente":"https://www.clarochile.cl/personas/linea-adicional-movil-planm/","por_n_lineas":{"2":null,"3":null,"4":null,"5":null}},"Entel":{"operador":"Entel","plan_base_mas_barato":{"id":"entel-450-gigas","nombre":"450 Gigas (cuenta controlada)","precio_efectivo":8495},"confirmado":true,"nombre_oferta_lineas":"Plan Te Sumo","precio_linea_adicional_promo":5495,"precio_linea_adicional_regular":10990,"max_lineas_adicionales":4,"fuente":"https://www.entel.cl/planes/tesumo-cvm","por_n_lineas":{"2":{"costo_total_promo":13990,"costo_total_regular":19485,"costo_por_linea_promo":6995.0},"3":{"costo_total_promo":19485,"costo_total_regular":30475,"costo_por_linea_promo":6495.0},"4":{"costo_total_promo":24980,"costo_total_regular":41465,"costo_por_linea_promo":6245.0},"5":{"costo_total_promo":30475,"costo_total_regular":52455,"costo_por_linea_promo":6095.0}}},"Movistar":{"operador":"Movistar","plan_base_mas_barato":{"id":"movistar-libre-450","nombre":"Plan Libre 450","precio_efectivo":7990},"confirmado":true,"nombre_oferta_lineas":"Planes Adicionales 2x","precio_linea_adicional_promo":5990,"precio_linea_adicional_regular":9990,"max_lineas_adicionales":null,"fuente":"https://ww2.movistar.cl/movil/planes-adicionales/","por_n_lineas":{"2":{"costo_total_promo":13980,"costo_total_regular":17980,"costo_por_linea_promo":6990.0},"3":{"costo_total_promo":19970,"costo_total_regular":27970,"costo_por_linea_promo":6657.0},"4":{"costo_total_promo":25960,"costo_total_regular":37960,"costo_por_linea_promo":6490.0},"5":{"costo_total_promo":31950,"costo_total_regular":47950,"costo_por_linea_promo":6390.0}}},"WOM":{"operador":"WOM","plan_base_mas_barato":{"id":"wom-450gb","nombre":"450 GB","precio_efectivo":8990},"confirmado":true,"nombre_oferta_lineas":"Plan adicional WOM","precio_linea_adicional_promo":4990,"precio_linea_adicional_regular":9990,"max_lineas_adicionales":null,"fuente":"https://wompromociones.cl/p/td/wom-planes-moviles.html","por_n_lineas":{"2":{"costo_total_promo":13980,"costo_total_regular":18980,"costo_por_linea_promo":6990.0},"3":{"costo_total_promo":18970,"costo_total_regular":28970,"costo_por_linea_promo":6323.0},"4":{"costo_total_promo":23960,"costo_total_regular":38960,"costo_por_linea_promo":5990.0},"5":{"costo_total_promo":28950,"costo_total_regular":48950,"costo_por_linea_promo":5790.0}}}},"ranking_por_n_lineas":{"2":[{"operador":"Movistar","costo_total_promo":13980,"costo_por_linea_promo":6990.0},{"operador":"WOM","costo_total_promo":13980,"costo_por_linea_promo":6990.0},{"operador":"Entel","costo_total_promo":13990,"costo_por_linea_promo":6995.0}],"3":[{"operador":"WOM","costo_total_promo":18970,"costo_por_linea_promo":6323.0},{"operador":"Entel","costo_total_promo":19485,"costo_por_linea_promo":6495.0},{"operador":"Movistar","costo_total_promo":19970,"costo_por_linea_promo":6657.0}],"4":[{"operador":"WOM","costo_total_promo":23960,"costo_por_linea_promo":5990.0},{"operador":"Entel","costo_total_promo":24980,"costo_por_linea_promo":6245.0},{"operador":"Movistar","costo_total_promo":25960,"costo_por_linea_promo":6490.0}],"5":[{"operador":"WOM","costo_total_promo":28950,"costo_por_linea_promo":5790.0},{"operador":"Entel","costo_total_promo":30475,"costo_por_linea_promo":6095.0},{"operador":"Movistar","costo_total_promo":31950,"costo_por_linea_promo":6390.0}]},"operadores_no_confirmados":["Claro"]}}
+{
+  "generado_desde": "planes.json",
+  "fecha_actualizacion": "2026-10-21",
+  "resumen_general": {
+    "total_planes": 15,
+    "total_operadores": 4,
+    "precio_promedio_mercado": 15551,
+    "precio_mediana_mercado": 13990,
+    "precio_por_gb_promedio_mercado": 26.1,
+    "correlacion_datos_vs_precio": 0.373
+  },
+  "por_operador": {
+    "Claro": {
+      "operador": "Claro",
+      "cantidad_planes": 3,
+      "precio_promedio": 12990,
+      "precio_mediana": 11990,
+      "precio_regular_promedio": 13657.0,
+      "precio_min": 9990,
+      "precio_max": 16990,
+      "desviacion_estandar_precio": 2943.9,
+      "precio_por_gb_promedio": 14.0,
+      "precio_por_gb_mediana": 15.0,
+      "pct_planes_con_roaming": 100.0,
+      "pct_planes_redes_sociales_gratis": 0.0,
+      "cantidad_planes_datos_ilimitados": 0,
+      "plan_mas_barato": {
+        "id": "claro-gigas-libres-1000-1ano",
+        "nombre": "Gigas Libres 1.000 GB",
+        "precio": 9990
+      },
+      "plan_mas_caro": {
+        "id": "claro-gigas-libres-1000",
+        "nombre": "Gigas Libres 1.000 GB Plus",
+        "precio": 16990
+      }
+    },
+    "Entel": {
+      "operador": "Entel",
+      "cantidad_planes": 6,
+      "precio_promedio": 17726.0,
+      "precio_mediana": 15743.0,
+      "precio_regular_promedio": 24323.0,
+      "precio_min": 11893,
+      "precio_max": 27993,
+      "desviacion_estandar_precio": 5447.6,
+      "precio_por_gb_promedio": 21.3,
+      "precio_por_gb_mediana": 14.9,
+      "pct_planes_con_roaming": 33.3,
+      "pct_planes_redes_sociales_gratis": 50.0,
+      "cantidad_planes_datos_ilimitados": 3,
+      "plan_mas_barato": {
+        "id": "entel-800-gigas",
+        "nombre": "Plan 800 Gigas (cuenta controlada)",
+        "precio": 11893
+      },
+      "plan_mas_caro": {
+        "id": "entel-libre-roaming-pro",
+        "nombre": "Plan Libre con Roaming Pro",
+        "precio": 27993
+      }
+    },
+    "Movistar": {
+      "operador": "Movistar",
+      "cantidad_planes": 3,
+      "precio_promedio": 14657.0,
+      "precio_mediana": 13990,
+      "precio_regular_promedio": 14657.0,
+      "precio_min": 10990,
+      "precio_max": 18990,
+      "desviacion_estandar_precio": 3299.8,
+      "precio_por_gb_promedio": 20.3,
+      "precio_por_gb_mediana": 19.0,
+      "pct_planes_con_roaming": 66.7,
+      "pct_planes_redes_sociales_gratis": 100.0,
+      "cantidad_planes_datos_ilimitados": 0,
+      "plan_mas_barato": {
+        "id": "movistar-libre-450",
+        "nombre": "Libre 450",
+        "precio": 10990
+      },
+      "plan_mas_caro": {
+        "id": "movistar-libre-1000",
+        "nombre": "Libre 1000",
+        "precio": 18990
+      }
+    },
+    "WOM": {
+      "operador": "WOM",
+      "cantidad_planes": 3,
+      "precio_promedio": 14657.0,
+      "precio_mediana": 13990,
+      "precio_regular_promedio": 14657.0,
+      "precio_min": 10990,
+      "precio_max": 18990,
+      "desviacion_estandar_precio": 3299.8,
+      "precio_por_gb_promedio": 60.0,
+      "precio_por_gb_mediana": 60.0,
+      "pct_planes_con_roaming": 33.3,
+      "pct_planes_redes_sociales_gratis": 100.0,
+      "cantidad_planes_datos_ilimitados": 1,
+      "plan_mas_barato": {
+        "id": "wom-plan-w",
+        "nombre": "Plan W (150 GB)",
+        "precio": 10990
+      },
+      "plan_mas_caro": {
+        "id": "wom-plan-m",
+        "nombre": "Plan M (GB libres)",
+        "precio": 18990
+      }
+    }
+  },
+  "ranking_precio_por_gb_top10": [
+    {
+      "id": "claro-gigas-libres-1000-1ano",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 1.000 GB",
+      "precio_por_gb": 9.99,
+      "precio_efectivo": 9990,
+      "datos_gb": 1000
+    },
+    {
+      "id": "entel-1000-gigas",
+      "operador": "Entel",
+      "nombre": "Plan 1.000 Gigas (cuenta controlada)",
+      "precio_por_gb": 13.99,
+      "precio_efectivo": 13993,
+      "datos_gb": 1000
+    },
+    {
+      "id": "entel-800-gigas",
+      "operador": "Entel",
+      "nombre": "Plan 800 Gigas (cuenta controlada)",
+      "precio_por_gb": 14.87,
+      "precio_efectivo": 11893,
+      "datos_gb": 800
+    },
+    {
+      "id": "claro-gigas-libres-800",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 800 GB",
+      "precio_por_gb": 14.99,
+      "precio_efectivo": 11990,
+      "datos_gb": 800
+    },
+    {
+      "id": "claro-gigas-libres-1000",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 1.000 GB Plus",
+      "precio_por_gb": 16.99,
+      "precio_efectivo": 16990,
+      "datos_gb": 1000
+    },
+    {
+      "id": "movistar-libre-800",
+      "operador": "Movistar",
+      "nombre": "Libre 800",
+      "precio_por_gb": 17.49,
+      "precio_efectivo": 13990,
+      "datos_gb": 800
+    },
+    {
+      "id": "movistar-libre-1000",
+      "operador": "Movistar",
+      "nombre": "Libre 1000",
+      "precio_por_gb": 18.99,
+      "precio_efectivo": 18990,
+      "datos_gb": 1000
+    },
+    {
+      "id": "movistar-libre-450",
+      "operador": "Movistar",
+      "nombre": "Libre 450",
+      "precio_por_gb": 24.42,
+      "precio_efectivo": 10990,
+      "datos_gb": 450
+    },
+    {
+      "id": "entel-400-gigas",
+      "operador": "Entel",
+      "nombre": "Plan 400 Gigas (cuenta controlada)",
+      "precio_por_gb": 34.98,
+      "precio_efectivo": 13990,
+      "datos_gb": 400
+    },
+    {
+      "id": "wom-plan-o",
+      "operador": "WOM",
+      "nombre": "Plan O (300 GB)",
+      "precio_por_gb": 46.63,
+      "precio_efectivo": 13990,
+      "datos_gb": 300
+    }
+  ],
+  "ranking_mas_barato_absoluto_top5": [
+    {
+      "id": "claro-gigas-libres-1000-1ano",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 1.000 GB",
+      "precio_efectivo": 9990
+    },
+    {
+      "id": "wom-plan-w",
+      "operador": "WOM",
+      "nombre": "Plan W (150 GB)",
+      "precio_efectivo": 10990
+    },
+    {
+      "id": "movistar-libre-450",
+      "operador": "Movistar",
+      "nombre": "Libre 450",
+      "precio_efectivo": 10990
+    },
+    {
+      "id": "entel-800-gigas",
+      "operador": "Entel",
+      "nombre": "Plan 800 Gigas (cuenta controlada)",
+      "precio_efectivo": 11893
+    },
+    {
+      "id": "claro-gigas-libres-800",
+      "operador": "Claro",
+      "nombre": "Gigas Libres 800 GB",
+      "precio_efectivo": 11990
+    }
+  ],
+  "multilinea": {
+    "por_operador": {
+      "Claro": {
+        "operador": "Claro",
+        "plan_base_mas_barato": {
+          "id": "claro-gigas-libres-1000-1ano",
+          "nombre": "Gigas Libres 1.000 GB",
+          "precio_efectivo": 9990
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Línea adicional Claro (cliente nuevo)",
+        "precio_linea_adicional_promo": 7990,
+        "precio_linea_adicional_regular": 7990,
+        "max_lineas_adicionales": null,
+        "fuente": "https://www.clarochile.cl/personas/servicios/servicios-moviles/",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 17980,
+            "costo_total_regular": 17980,
+            "costo_por_linea_promo": 8990.0
+          },
+          "3": {
+            "costo_total_promo": 25970,
+            "costo_total_regular": 25970,
+            "costo_por_linea_promo": 8657.0
+          },
+          "4": {
+            "costo_total_promo": 33960,
+            "costo_total_regular": 33960,
+            "costo_por_linea_promo": 8490.0
+          },
+          "5": {
+            "costo_total_promo": 41950,
+            "costo_total_regular": 41950,
+            "costo_por_linea_promo": 8390.0
+          }
+        }
+      },
+      "Entel": {
+        "operador": "Entel",
+        "plan_base_mas_barato": {
+          "id": "entel-800-gigas",
+          "nombre": "Plan 800 Gigas (cuenta controlada)",
+          "precio_efectivo": 11893
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Plan Te Sumo",
+        "precio_linea_adicional_promo": 7693,
+        "precio_linea_adicional_regular": 10990,
+        "max_lineas_adicionales": 4,
+        "fuente": "https://www.entel.cl/planes/tesumo-cvm",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 19586,
+            "costo_total_regular": 22883,
+            "costo_por_linea_promo": 9793.0
+          },
+          "3": {
+            "costo_total_promo": 27279,
+            "costo_total_regular": 33873,
+            "costo_por_linea_promo": 9093.0
+          },
+          "4": {
+            "costo_total_promo": 34972,
+            "costo_total_regular": 44863,
+            "costo_por_linea_promo": 8743.0
+          },
+          "5": {
+            "costo_total_promo": 42665,
+            "costo_total_regular": 55853,
+            "costo_por_linea_promo": 8533.0
+          }
+        }
+      },
+      "Movistar": {
+        "operador": "Movistar",
+        "plan_base_mas_barato": {
+          "id": "movistar-libre-450",
+          "nombre": "Libre 450",
+          "precio_efectivo": 10990
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Planes adicionales",
+        "precio_linea_adicional_promo": 9990,
+        "precio_linea_adicional_regular": 9990,
+        "max_lineas_adicionales": null,
+        "fuente": "https://ww2.movistar.cl/movil/planes-portabilidad/",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 20980,
+            "costo_total_regular": 20980,
+            "costo_por_linea_promo": 10490.0
+          },
+          "3": {
+            "costo_total_promo": 30970,
+            "costo_total_regular": 30970,
+            "costo_por_linea_promo": 10323.0
+          },
+          "4": {
+            "costo_total_promo": 40960,
+            "costo_total_regular": 40960,
+            "costo_por_linea_promo": 10240.0
+          },
+          "5": {
+            "costo_total_promo": 50950,
+            "costo_total_regular": 50950,
+            "costo_por_linea_promo": 10190.0
+          }
+        }
+      },
+      "WOM": {
+        "operador": "WOM",
+        "plan_base_mas_barato": {
+          "id": "wom-plan-w",
+          "nombre": "Plan W (150 GB)",
+          "precio_efectivo": 10990
+        },
+        "confirmado": true,
+        "nombre_oferta_lineas": "Línea adicional Planes Simples",
+        "precio_linea_adicional_promo": 7990,
+        "precio_linea_adicional_regular": 7990,
+        "max_lineas_adicionales": null,
+        "fuente": "https://store.wom.cl/planes/planes-portabilidad/grupales",
+        "por_n_lineas": {
+          "2": {
+            "costo_total_promo": 18980,
+            "costo_total_regular": 18980,
+            "costo_por_linea_promo": 9490.0
+          },
+          "3": {
+            "costo_total_promo": 26970,
+            "costo_total_regular": 26970,
+            "costo_por_linea_promo": 8990.0
+          },
+          "4": {
+            "costo_total_promo": 34960,
+            "costo_total_regular": 34960,
+            "costo_por_linea_promo": 8740.0
+          },
+          "5": {
+            "costo_total_promo": 42950,
+            "costo_total_regular": 42950,
+            "costo_por_linea_promo": 8590.0
+          }
+        }
+      }
+    },
+    "ranking_por_n_lineas": {
+      "2": [
+        {
+          "operador": "Claro",
+          "costo_total_promo": 17980,
+          "costo_por_linea_promo": 8990.0
+        },
+        {
+          "operador": "WOM",
+          "costo_total_promo": 18980,
+          "costo_por_linea_promo": 9490.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 19586,
+          "costo_por_linea_promo": 9793.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 20980,
+          "costo_por_linea_promo": 10490.0
+        }
+      ],
+      "3": [
+        {
+          "operador": "Claro",
+          "costo_total_promo": 25970,
+          "costo_por_linea_promo": 8657.0
+        },
+        {
+          "operador": "WOM",
+          "costo_total_promo": 26970,
+          "costo_por_linea_promo": 8990.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 27279,
+          "costo_por_linea_promo": 9093.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 30970,
+          "costo_por_linea_promo": 10323.0
+        }
+      ],
+      "4": [
+        {
+          "operador": "Claro",
+          "costo_total_promo": 33960,
+          "costo_por_linea_promo": 8490.0
+        },
+        {
+          "operador": "WOM",
+          "costo_total_promo": 34960,
+          "costo_por_linea_promo": 8740.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 34972,
+          "costo_por_linea_promo": 8743.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 40960,
+          "costo_por_linea_promo": 10240.0
+        }
+      ],
+      "5": [
+        {
+          "operador": "Claro",
+          "costo_total_promo": 41950,
+          "costo_por_linea_promo": 8390.0
+        },
+        {
+          "operador": "Entel",
+          "costo_total_promo": 42665,
+          "costo_por_linea_promo": 8533.0
+        },
+        {
+          "operador": "WOM",
+          "costo_total_promo": 42950,
+          "costo_por_linea_promo": 8590.0
+        },
+        {
+          "operador": "Movistar",
+          "costo_total_promo": 50950,
+          "costo_por_linea_promo": 10190.0
+        }
+      ]
+    },
+    "operadores_no_confirmados": []
+  }
+}

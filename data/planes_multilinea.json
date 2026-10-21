@@ -1,44 +1,44 @@
 {
   "metadata": {
-    "fecha_actualizacion": "2026-07-22",
+    "fecha_actualizacion": "2026-10-21",
     "moneda": "CLP",
-    "nota": "Precio de la línea adicional que se suma a un plan base ya contratado (no es el precio de un plan independiente). El total de la boleta para N líneas = precio del plan base más barato del operador + (N-1) x precio de línea adicional. Datos de Claro no confirmados con precio oficial (páginas de línea adicional bloquearon el acceso directo); se deja marcado como 'no confirmado'."
+    "nota": "Precio de la línea adicional que se suma a un plan base ya contratado. Total de la boleta para N líneas = plan base más barato del operador + (N-1) × precio de línea adicional. Claro no confirmado (sitio oficial bloqueó la consulta)."
   },
   "ofertas": [
     {
       "operador": "WOM",
-      "nombre_oferta": "Plan adicional WOM",
-      "precio_linea_adicional_promo": 4990,
-      "precio_linea_adicional_regular": 9990,
-      "meses_promo": 6,
+      "nombre_oferta": "Línea adicional Planes Simples",
+      "precio_linea_adicional_promo": null,
+      "precio_linea_adicional_regular": 7990,
+      "meses_promo": null,
       "max_lineas_adicionales": null,
       "replica_beneficios_plan_base": true,
       "confirmado": true,
-      "notas": "Cada línea adicional se contrata sobre cualquiera de los planes base de WOM (200GB, 450GB, Gigas Libres, Gigas Libres+).",
-      "fuente": "https://wompromociones.cl/p/td/wom-planes-moviles.html"
+      "notas": "$7.990 por línea en planes W, O y M. La campaña de 2 meses gratis terminó el 19-oct-2026.",
+      "fuente": "https://store.wom.cl/planes/planes-portabilidad/grupales"
     },
     {
       "operador": "Movistar",
-      "nombre_oferta": "Planes Adicionales 2x",
-      "precio_linea_adicional_promo": 5990,
+      "nombre_oferta": "Planes adicionales",
+      "precio_linea_adicional_promo": null,
       "precio_linea_adicional_regular": 9990,
-      "meses_promo": 6,
+      "meses_promo": null,
       "max_lineas_adicionales": null,
       "replica_beneficios_plan_base": true,
       "confirmado": true,
-      "notas": "Promoción '2x con 50% de descuento' para la segunda línea; datos compartidos ilimitados entre líneas del mismo titular.",
-      "fuente": "https://ww2.movistar.cl/movil/planes-adicionales/"
+      "notas": "$9.990 por línea sobre Libre 450 (plan base más barato); $7.990 sobre Libre 800 y Libre 1000.",
+      "fuente": "https://ww2.movistar.cl/movil/planes-portabilidad/"
     },
     {
       "operador": "Entel",
       "nombre_oferta": "Plan Te Sumo",
-      "precio_linea_adicional_promo": 5495,
+      "precio_linea_adicional_promo": 7693,
       "precio_linea_adicional_regular": 10990,
       "meses_promo": 6,
       "max_lineas_adicionales": 4,
       "replica_beneficios_plan_base": true,
       "confirmado": true,
-      "notas": "Hasta 4 líneas adicionales bajo el mismo RUT; cada línea replica los GB, minutos, SMS y roaming del plan principal.",
+      "notas": "Hasta 4 líneas bajo el mismo RUT; $7.693 por 6 meses y luego $10.990 (la página es ambigua sobre el precio posterior).",
       "fuente": "https://www.entel.cl/planes/tesumo-cvm"
     },
     {
@@ -50,8 +50,8 @@
       "max_lineas_adicionales": null,
       "replica_beneficios_plan_base": null,
       "confirmado": false,
-      "notas": "Claro tiene oferta de línea adicional (incluye campañas puntuales de 'línea adicional a costo $0'), pero no fue posible confirmar el precio vigente porque las páginas oficiales de línea adicional devolvieron error de acceso al momento de la consulta. Verificar directamente en clarochile.cl antes de usar para una decisión comercial.",
-      "fuente": "https://www.clarochile.cl/personas/linea-adicional-movil-planm/"
+      "notas": "No fue posible confirmar el precio vigente: el sitio oficial de Claro bloqueó la consulta. Verificar en clarochile.cl.",
+      "fuente": "https://www.clarochile.cl/personas/servicios/servicios-moviles/"
     }
   ]
 }
